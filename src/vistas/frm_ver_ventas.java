@@ -9,6 +9,7 @@ import clases.cl_varios;
 import clases.cl_venta;
 import forms.frm_reg_venta;
 import java.awt.Frame;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import minicontador.frm_menu;
 
@@ -24,13 +25,15 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     int id_empresa = frm_menu.c_empresa.getId_empresa();
     int id_usuario = frm_menu.c_usuario.getId_usuario();
 
+    String query;
+    String periodo;
     /**
      * Creates new form frm_ver_ventas
      */
     public frm_ver_ventas() {
         initComponents();
-        String periodo = c_varios.obtener_periodo();
-        String query = "select v.id_ventas, v.periodo, v.fecha_emision, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.abreviatura as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
+        periodo = c_varios.obtener_periodo();
+        query = "select v.id_ventas, v.periodo, v.fecha_emision, ds.cod_sunat, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.abreviatura as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
                 + "from ventas as v "
                 + "inner join entidad as en on en.id_entidad = v.id_entidad and en.id_usuario = v.id_usuario "
                 + "inner join documentos_sunat as ds on v.id_tido = ds.id_tido "
@@ -66,7 +69,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         t_ventas = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cbx_buscar = new javax.swing.JComboBox<>();
         jComboBox3 = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
 
@@ -151,6 +154,12 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Buscar");
 
+        txt_buscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_buscarKeyPressed(evt);
+            }
+        });
+
         t_ventas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -168,10 +177,10 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "201801", "201802", "201803", "201804", "201805" }));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "POR DOCUMENTO", "POR CLIENTE", "POR CODIGO" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        cbx_buscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "POR DOCUMENTO", "POR CLIENTE", "POR PERIODO" }));
+        cbx_buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                cbx_buscarActionPerformed(evt);
             }
         });
 
@@ -191,7 +200,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbx_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
@@ -214,7 +223,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
                     .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbx_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -229,10 +238,10 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void cbx_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_buscarActionPerformed
         txt_buscar.setText("");
         txt_buscar.requestFocus();
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_cbx_buscarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.dispose();
@@ -253,11 +262,39 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        
+        query = "select v.id_ventas, v.periodo, v.fecha_emision, ds.cod_sunat, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.abreviatura as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
+                + "from ventas as v "
+                + "inner join entidad as en on en.id_entidad = v.id_entidad and en.id_usuario = v.id_usuario "
+                + "inner join documentos_sunat as ds on v.id_tido = ds.id_tido "
+                + "inner join moneda as m on m.id_moneda = v.id_moneda "
+                + "where v.periodo = '" + periodo + "' and v.id_empresa = '" + id_empresa + "' "
+                + "order by v.fecha_emision asc, v.numero asc";
+        c_venta.generar_le(query, frm_menu.c_entidad.getDocumento(), periodo);
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void txt_buscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_buscarKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            int tipo_busqueda = cbx_buscar.getSelectedIndex();
+            String busqueda = txt_buscar.getText();
+            
+            if (tipo_busqueda == 2) {
+                periodo = busqueda;
+                query = "select v.id_ventas, v.periodo, v.fecha_emision, ds.cod_sunat, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.abreviatura as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
+                + "from ventas as v "
+                + "inner join entidad as en on en.id_entidad = v.id_entidad and en.id_usuario = v.id_usuario "
+                + "inner join documentos_sunat as ds on v.id_tido = ds.id_tido "
+                + "inner join moneda as m on m.id_moneda = v.id_moneda "
+                + "where v.periodo = '" + periodo + "' and v.id_empresa = '" + id_empresa + "' "
+                + "order by v.fecha_emision asc, v.numero asc";
+            }
+            
+            c_venta.ver_ventas(t_ventas, query);
+        }
+    }//GEN-LAST:event_txt_buscarKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbx_buscar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -266,7 +303,6 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
