@@ -39,7 +39,7 @@ public class frm_menu extends javax.swing.JFrame {
 
     public static cl_usuario c_usuario = new cl_usuario();
     public static cl_empresas c_empresa = new cl_empresas();
-    cl_entidad c_entidad = new cl_entidad();
+    public static cl_entidad c_entidad = new cl_entidad();
 
     /**
      * Creates new form frm_menu
@@ -766,7 +766,7 @@ public class frm_menu extends javax.swing.JFrame {
     private void txt_email_loginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_email_loginKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (txt_email_login.getText().length() > 3) {
-                validar_conexion();
+                //validar_conexion();
                 c_usuario.setEmail(txt_email_login.getText().trim());
                 boolean existe_email = c_usuario.validar_email();
                 if (existe_email) {

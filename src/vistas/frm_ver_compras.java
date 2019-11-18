@@ -20,25 +20,28 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
 
     cl_compra c_compra = new cl_compra();
     cl_varios c_varios = new cl_varios();
-    
-        int id_empresa = frm_menu.c_empresa.getId_empresa();
+
+    int id_empresa = frm_menu.c_empresa.getId_empresa();
     int id_usuario = frm_menu.c_usuario.getId_usuario();
+
+    String periodo;
+    String query;
     /**
      * Creates new form frm_ver_ventas
      */
     public frm_ver_compras() {
         initComponents();
-        String periodo = c_varios.obtener_periodo();
-        String query = "SELECT c.id_compras, c.periodo, c.fecha_emision, ds.abreviatura\n" +
-" AS doc_compra, c.serie, c.numero, en.documento AS doc_cliente, \n" +
-" en.nombre AS nombre_cliente, m.abreviatura AS moneda, c.tc, c.tipo_compra, c.subtotal, c.igv, c.total\n" +
-"                FROM compras AS c \n" +
-"                INNER JOIN entidad AS en ON en.id_entidad = c.id_entidad AND en.id_usuario = c.id_usuario \n" +
-"                INNER JOIN documentos_sunat AS ds ON c.id_tido = ds.id_tido \n" +
-"                INNER JOIN moneda AS m ON m.id_moneda = c.id_moneda "
+        periodo = c_varios.obtener_periodo();
+        query = "SELECT c.id_compras, c.periodo, c.fecha_emision, ds.cod_sunat, ds.abreviatura "
+                + "AS doc_compra, c.serie, c.numero, en.documento AS doc_cliente, "
+                + "en.nombre AS nombre_cliente, m.abreviatura AS moneda, c.tc, c.tipo_compra, c.subtotal, c.igv, c.total "
+                + "FROM compras AS c "
+                + "INNER JOIN entidad AS en ON en.id_entidad = c.id_entidad AND en.id_usuario = c.id_usuario "
+                + "INNER JOIN documentos_sunat AS ds ON c.id_tido = ds.id_tido "
+                + "INNER JOIN moneda AS m ON m.id_moneda = c.id_moneda "
                 + "where c.periodo = '" + periodo + "' and c.id_empresa = '" + id_empresa + "' "
                 + "order by c.fecha_emision asc, c.numero asc";
-        System.out.println(query);
+       // System.out.println(query);
         c_compra.ver_compras(t_compras, query);
     }
 
@@ -54,6 +57,7 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
         jButton3 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
@@ -93,6 +97,13 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(jButton2);
+
+        jButton6.setText("Eliminar");
+        jButton6.setEnabled(false);
+        jButton6.setFocusable(false);
+        jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jButton6);
         jToolBar1.add(jSeparator2);
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/clipboard_text.png"))); // NOI18N
@@ -213,7 +224,20 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        String ruc = frm_menu.c_entidad.getDocumento();
+        periodo = "201910";
+        query = "SELECT c.id_compras, c.periodo, c.fecha_emision, ds.cod_sunat, ds.abreviatura "
+                + "AS doc_compra, c.serie, c.numero, en.documento AS doc_cliente, "
+                + "en.nombre AS nombre_cliente, m.abreviatura AS moneda, c.tc, c.tipo_compra, c.subtotal, c.igv, c.total "
+                + "FROM compras AS c "
+                + "INNER JOIN entidad AS en ON en.id_entidad = c.id_entidad AND en.id_usuario = c.id_usuario "
+                + "INNER JOIN documentos_sunat AS ds ON c.id_tido = ds.id_tido "
+                + "INNER JOIN moneda AS m ON m.id_moneda = c.id_moneda "
+                + "where c.periodo = '" + periodo + "' and c.id_empresa = '" + id_empresa + "' "
+                + "order by c.fecha_emision asc, c.numero asc";
+        
+        c_compra.generar_le_domiciliado(query, ruc, periodo);
+        c_compra.generar_le(query, ruc, periodo);
     }//GEN-LAST:event_jButton5ActionPerformed
 
 
@@ -223,6 +247,7 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;

@@ -36,8 +36,8 @@ public class frm_reg_compra extends javax.swing.JDialog {
 
     int id_usuario = frm_menu.c_usuario.getId_usuario();
     int id_empresa = frm_menu.c_empresa.getId_empresa();
-    
-    cl_plan_contable c_plan_contable=new cl_plan_contable();
+
+    cl_plan_contable c_plan_contable = new cl_plan_contable();
 
     /**
      * Creates new form frm_reg_compra
@@ -443,7 +443,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void cbx_monedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_monedaActionPerformed
-       //al hacer clic en soles tc igual a 1.000
+        //al hacer clic en soles tc igual a 1.000
     }//GEN-LAST:event_cbx_monedaActionPerformed
 
     private void txt_proveedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_proveedorKeyPressed
@@ -479,32 +479,30 @@ public class frm_reg_compra extends javax.swing.JDialog {
     }//GEN-LAST:event_btn_add_proveedorActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       c_compra.setFecha_emision(c_varios.formato_fecha_mysql(txt_fec_emision.getText()));
-       c_compra.setFecha_vcto(c_varios.formato_fecha_mysql(txt_fec_vcto.getText()));
-       c_compra.setId_compra(1);
-       c_compra.setId_empresa(id_empresa);
-       c_compra.setId_moneda(((o_combobox)cbx_moneda.getSelectedItem()).getId());
-       c_compra.setId_proveedor(c_entidad.getId_entidad());
-       c_compra.setId_tido(((o_combobox)cbx_tido.getSelectedItem()).getId());
-       c_compra.setIgv(Double.parseDouble(txt_igv.getText())); 
-       c_compra.setNumero(Integer.parseInt(txt_numero.getText()));
-       c_compra.setPeriodo(Integer.parseInt(txt_periodo.getText()));
-       c_compra.setSerie(txt_serie.getText());
-       c_compra.setSubtotal(Double.parseDouble(txt_subtotal.getText()));
-       c_compra.setTc(Double.parseDouble(txt_tc.getText()));
-       c_compra.setTotal(Double.parseDouble(txt_total.getText())); 
-       c_compra.setTipo_compra(c_plan_contable.getId_cuenta());
-       c_compra.setId_usuario(id_usuario); 
-       c_compra.obtener_id();
-       c_compra.insertar();
-       
-       
+        c_compra.setFecha_emision(c_varios.formato_fecha_mysql(txt_fec_emision.getText()));
+        c_compra.setFecha_vcto(c_varios.formato_fecha_mysql(txt_fec_vcto.getText()));
+        c_compra.setId_compra(1);
+        c_compra.setId_empresa(id_empresa);
+        c_compra.setId_moneda(((o_combobox) cbx_moneda.getSelectedItem()).getId());
+        c_compra.setId_proveedor(c_entidad.getId_entidad());
+        c_compra.setId_tido(((o_combobox) cbx_tido.getSelectedItem()).getId());
+        c_compra.setIgv(Double.parseDouble(txt_igv.getText()));
+        c_compra.setNumero(Integer.parseInt(txt_numero.getText()));
+        c_compra.setPeriodo(Integer.parseInt(txt_periodo.getText()));
+        c_compra.setSerie(txt_serie.getText());
+        c_compra.setSubtotal(Double.parseDouble(txt_subtotal.getText()));
+        c_compra.setTc(Double.parseDouble(txt_tc.getText()));
+        c_compra.setTotal(Double.parseDouble(txt_total.getText()));
+        c_compra.setTipo_compra(c_plan_contable.getId_cuenta());
+        c_compra.setId_usuario(id_usuario);
+        c_compra.obtener_id();
+        c_compra.insertar();
 
-            JOptionPane.showMessageDialog(null, "DOCUMENTO AGREGADO CORRECTAMENTE");
-            this.dispose();
-            frm_ver_compras formulario = new frm_ver_compras();
-            c_varios.llamar_ventana_ancha(formulario);
-        
+        JOptionPane.showMessageDialog(null, "DOCUMENTO AGREGADO CORRECTAMENTE");
+        this.dispose();
+        frm_ver_compras formulario = new frm_ver_compras();
+        c_varios.llamar_ventana_ancha(formulario);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txt_periodoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_periodoKeyPressed
@@ -517,7 +515,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
     }//GEN-LAST:event_txt_periodoKeyPressed
 
     private void cbx_tidoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbx_tidoKeyPressed
-       if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txt_serie.setEnabled(true);
             txt_serie.requestFocus();
         }
@@ -525,7 +523,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
 
     private void txt_serieKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_serieKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (txt_serie.getText().length() >0) {
+            if (txt_serie.getText().length() > 0) {
                 txt_numero.setEnabled(true);
                 txt_numero.requestFocus();
             }
@@ -534,7 +532,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
 
     private void txt_numeroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_numeroKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (txt_numero.getText().length() <13) {
+            if (txt_numero.getText().length() < 13) {
                 txt_fec_vcto.setEnabled(true);
                 txt_fec_vcto.requestFocus();
             }
@@ -542,21 +540,29 @@ public class frm_reg_compra extends javax.swing.JDialog {
     }//GEN-LAST:event_txt_numeroKeyPressed
 
     private void txt_fec_emisionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_fec_emisionKeyPressed
-       if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (txt_fec_emision.getText().length() == 10) {
-                cbx_tido.setEnabled(true);
-                cbx_tido.requestFocus();
-                
+                String fecha = c_varios.formato_fecha_mysql(txt_fec_emision.getText());
+                String periodo = txt_periodo.getText();
+                if (c_varios.formato_periodo(fecha).equals(periodo)) {
+                    txt_fec_vcto.setText(txt_fec_emision.getText());
+                    cbx_tido.setEnabled(true);
+                    cbx_tido.requestFocus();
+                } else {
+                    JOptionPane.showMessageDialog(null, "LA FECHA NO CORRESPONDE AL PERIODO INGRESADO");
+                    txt_fec_emision.selectAll();
+                    txt_fec_emision.requestFocus();
+                }
             }
         }
     }//GEN-LAST:event_txt_fec_emisionKeyPressed
 
     private void txt_fec_vctoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_fec_vctoKeyPressed
-         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (txt_fec_vcto.getText().length() == 10) {
                 txt_proveedor.setEnabled(true);
                 txt_proveedor.requestFocus();
-                
+
             }
         }
     }//GEN-LAST:event_txt_fec_vctoKeyPressed
@@ -581,19 +587,19 @@ public class frm_reg_compra extends javax.swing.JDialog {
 
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            String num=jTextField1.getText();
-            System.out.println(num.length() + "<>" +num.substring(0, 2));
-            if (num.length()>2&&num.substring(0, 2).equals("60")) {
+            String num = jTextField1.getText();
+            System.out.println(num.length() + "<>" + num.substring(0, 2));
+            if (num.length() > 2 && num.substring(0, 2).equals("60")) {
                 c_plan_contable.setId_cuenta(num);
                 if (c_plan_contable.obtener_datos()) {
                     jTextField2.setText(c_plan_contable.getNombre());
                     txt_total.setEnabled(true);
                     txt_total.requestFocus();
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(this, "El numero ingresado no es valido");
                 }
 
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Debe ingresar un numero que comience en \"60\"");
             }
         }
@@ -625,7 +631,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
 
     private void txt_tcKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_tcKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (txt_tc.getText().length() >0) {
+            if (txt_tc.getText().length() > 0) {
                 jTextField1.setEnabled(true);
                 jTextField1.requestFocus();
             }
@@ -633,7 +639,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
     }//GEN-LAST:event_txt_tcKeyPressed
 
     private void txt_numeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_numeroKeyTyped
-         c_varios.limitar_caracteres(evt, txt_numero, 12);
+        c_varios.limitar_caracteres(evt, txt_numero, 12);
         c_varios.solo_numeros(evt);
     }//GEN-LAST:event_txt_numeroKeyTyped
 

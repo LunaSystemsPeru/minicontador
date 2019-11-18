@@ -5,9 +5,13 @@
  */
 package clases;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.RowSorter;
 import javax.swing.table.DefaultTableModel;
@@ -19,6 +23,7 @@ import javax.swing.table.TableRowSorter;
  * @author CALIDAD
  */
 public class cl_compra {
+
     cl_conectar c_conectar = new cl_conectar();
     cl_varios c_varios = new cl_varios();
 
@@ -54,7 +59,6 @@ public class cl_compra {
     public void setTipo_compra(String tipo_compra) {
         this.tipo_compra = tipo_compra;
     }
-    
 
     public cl_compra() {
     }
@@ -170,28 +174,28 @@ public class cl_compra {
     public void setTotal(double total) {
         this.total = total;
     }
-    
+
     public boolean insertar() {
         boolean registrado = false;
 
         Statement st = c_conectar.conexion();
-        String query = "INSERT INTO compras\n" +
-        "VALUES ('"+id_compra+"',\n" +
-        "        '"+periodo+"',\n" +
-        "        '"+id_empresa+"',\n" +
-        "        '"+fecha_emision+"',\n" +
-        "        '"+fecha_vcto+"',\n" +
-        "        '"+id_tido+"',\n" +
-        "        '"+serie+"',\n" +
-        "        '"+numero+"',\n" +
-        "        '"+id_proveedor+"',\n" +
-        "        '"+id_moneda+"',\n" +
-        "        '"+tc+"',\n" +
-        "        '"+subtotal+"',\n" +
-        "        '"+igv+"',\n" +
-        "        '"+total+"',\n" +
-        "        '"+id_usuario+"',\n" +
-        "        '"+tipo_compra+"');";
+        String query = "INSERT INTO compras\n"
+                + "VALUES ('" + id_compra + "',\n"
+                + "        '" + periodo + "',\n"
+                + "        '" + id_empresa + "',\n"
+                + "        '" + fecha_emision + "',\n"
+                + "        '" + fecha_vcto + "',\n"
+                + "        '" + id_tido + "',\n"
+                + "        '" + serie + "',\n"
+                + "        '" + numero + "',\n"
+                + "        '" + id_proveedor + "',\n"
+                + "        '" + id_moneda + "',\n"
+                + "        '" + tc + "',\n"
+                + "        '" + subtotal + "',\n"
+                + "        '" + igv + "',\n"
+                + "        '" + total + "',\n"
+                + "        '" + id_usuario + "',\n"
+                + "        '" + tipo_compra + "');";
         int resultado = c_conectar.actualiza(st, query);
         if (resultado > -1) {
             registrado = true;
@@ -200,8 +204,7 @@ public class cl_compra {
 
         return registrado;
     }
-    
-    
+
     public void obtener_id() {
         try {
             Statement st = c_conectar.conexion();
@@ -259,7 +262,6 @@ public class cl_compra {
                     igv_soles = 0;
                 }
 
-             
                 String valor_cliente = "";
                 String valor_estado = "";
 
@@ -293,5 +295,117 @@ public class cl_compra {
             System.out.print(e);
         }
         return total;
+    }
+
+    public void generar_le(String query, String ruc, String speriodo) {
+        System.out.println(query);
+        String nombre_libro = "LE" + ruc + speriodo + "00080100001" + "1" + "11.txt";
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        try {
+            fichero = new FileWriter("C:\\Users\\user\\Documents\\minicontador\\libros_electronicos\\" + nombre_libro);
+            pw = new PrintWriter(fichero);
+
+            Statement st = c_conectar.conexion();
+            ResultSet rs = c_conectar.consulta(st, query);
+            while (rs.next()) {
+                String tipo_cliente = "1";
+                if (rs.getString("doc_cliente").length() == 11) {
+                    tipo_cliente = "6";
+                }
+
+                String sestado = "1";
+                if (!c_varios.formato_periodo(rs.getString("fecha_emision")).equals(speriodo)) {
+                    System.out.println("periodo fecha" + c_varios.formato_periodo(rs.getString("fecha_emision")));
+                    System.out.println("\nperiodo libro" + speriodo);
+                    sestado = "6";
+                }
+
+                String linea = rs.getString("periodo") + "00"
+                        + "|" + rs.getString("periodo") + c_varios.ceros_izquieda_numero(3, rs.getInt("id_compras"))
+                        + "|M" + rs.getString("id_compras")
+                        + "|" + c_varios.formato_fecha_vista(rs.getString("fecha_emision"))
+                        + "|" + c_varios.formato_fecha_vista(rs.getString("fecha_emision"))
+                        + "|" + rs.getString("cod_sunat")
+                        + "|" + c_varios.ceros_izquieda_letras(4, rs.getString("serie"))
+                        + "|"
+                        + "|" + rs.getString("numero")
+                        + "|"
+                        + "|" + tipo_cliente
+                        + "|" + rs.getString("doc_cliente")
+                        + "|" + rs.getString("nombre_cliente")
+                        + "|" + rs.getDouble("subtotal")
+                        + "|" + rs.getDouble("igv")
+                        + "|0"
+                        + "|0"
+                        + "|0"
+                        + "|0"
+                        + "|0"
+                        + "|0"
+                        + "|0"
+                        + "|" + rs.getDouble("total")
+                        + "|" + rs.getString("moneda")
+                        + "|" + c_varios.formato_tc(rs.getDouble("tc"))
+                        + "|"
+                        + "|"
+                        + "|"
+                        + "|"
+                        + "|"
+                        + "|"
+                        + "|"
+                        + "|"
+                        + "|"
+                        + "|"
+                        + "|"
+                        + "|"
+                        + "|"
+                        + "|"
+                        + "|"
+                        + "|" + sestado
+                        + "|";
+                pw.println(linea);
+            }
+            c_conectar.cerrar(rs);
+            c_conectar.cerrar(st);
+
+            JOptionPane.showMessageDialog(null, "LIBRO ELECTRONICO GENERADO CORRECTAMENTE");
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                // Nuevamente aprovechamos el finally para 
+                // asegurarnos que se cierra el fichero.
+                if (null != fichero) {
+                    fichero.close();
+                }
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }
+        }
+    }
+
+    public void generar_le_domiciliado(String query, String ruc, String speriodo) {
+        String nombre_libro = "LE" + ruc + speriodo + "00080200001" + "0" + "11.txt";
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        try {
+            fichero = new FileWriter("C:\\Users\\user\\Documents\\minicontador\\libros_electronicos\\" + nombre_libro);
+            pw = new PrintWriter(fichero);
+
+            //pw.println("");
+            JOptionPane.showMessageDialog(null, "LIBRO ELECTRONICO GENERADO CORRECTAMENTE");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                // Nuevamente aprovechamos el finally para 
+                // asegurarnos que se cierra el fichero.
+                if (null != fichero) {
+                    fichero.close();
+                }
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }
+        }
     }
 }

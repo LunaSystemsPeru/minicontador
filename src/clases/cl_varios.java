@@ -6,7 +6,6 @@
  */
 package clases;
 
-import groovyjarjarantlr.StringUtils;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
@@ -27,7 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,7 +48,6 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
-import org.codehaus.groovy.ast.ClassHelper;
 
 /**
  *
@@ -85,6 +82,8 @@ public class cl_varios {
             return false;
         }
     }
+
+    
 
     /**
      * da formato a fecha (2018-03-20)
@@ -145,7 +144,7 @@ public class cl_varios {
 
         return m_fecha;
     }
-    
+
     /**
      * da formato a hora (05:20:30 PM)
      *
@@ -167,7 +166,7 @@ public class cl_varios {
 
         return m_fecha;
     }
-    
+
     /**
      * da formato a periodo (aaaamm)
      *
@@ -407,7 +406,7 @@ public class cl_varios {
                     (desktopSize.height - jInternalFrameSize.height) / 2);
         }
     }
-    
+
     public void llamar_ventana_ancha(JInternalFrame ventana) {
         if (verificar_existencia(ventana)) {
             minicontador.frm_menu.jDesktopPane1.add(ventana);
@@ -424,7 +423,6 @@ public class cl_varios {
 
         }
     }
-
 
     public void solo_numeros(KeyEvent evt) {
         char car = evt.getKeyChar();
@@ -506,8 +504,9 @@ public class cl_varios {
     }
 
     /**
-     * devuelva fecha actual en format  yyyy-mm-dd
-     * @return fecha 
+     * devuelva fecha actual en format yyyy-mm-dd
+     *
+     * @return fecha
      */
     public String getFechaActual() {
         Date ahora = new Date();

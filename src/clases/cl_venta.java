@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.RowSorter;
 import javax.swing.table.DefaultTableModel;
@@ -351,27 +352,70 @@ public class cl_venta {
         return total;
     }
 
-    public void generar_le(String query) {
+    public void generar_le(String query, String ruc, String speriodo) {
+        String nombre_libro = "LE" + ruc + speriodo + "00140100001" + "1" + "11.txt";
         FileWriter fichero = null;
         PrintWriter pw = null;
         try {
-            fichero = new FileWriter("c:/prueba.txt");
+            fichero = new FileWriter("C:\\Users\\user\\Documents\\minicontador\\libros_electronicos\\" + nombre_libro);
             pw = new PrintWriter(fichero);
 
             Statement st = c_conectar.conexion();
             ResultSet rs = c_conectar.consulta(st, query);
             while (rs.next()) {
-                String linea = rs.getString("periodo")
-                        + "|" + rs.getString("fecha");
+                String tipo_cliente = "1";
+                if (rs.getString("doc_cliente").length() == 11) {
+                    tipo_cliente = "6";
+                }
+
+                String sestado = "1";
+                if (rs.getInt("estado") == 2) {
+                    sestado = "2";
+                }
+
+                String linea = rs.getString("periodo") + "00"
+                        + "|" + rs.getString("periodo") + c_varios.ceros_izquieda_numero(3, rs.getInt("id_ventas"))
+                        + "|M" + rs.getString("id_ventas")
+                        + "|" + c_varios.formato_fecha_vista(rs.getString("fecha_emision"))
+                        + "|"
+                        + "|" + rs.getString("cod_sunat")
+                        + "|" + c_varios.ceros_izquieda_letras(4, rs.getString("serie"))
+                        + "|" + rs.getString("numero")
+                        + "|"
+                        + "|" + tipo_cliente
+                        + "|" + rs.getString("doc_cliente")
+                        + "|" + rs.getString("nombre_cliente")
+                        + "|0"
+                        + "|" + rs.getDouble("subtotal")
+                        + "|0"
+                        + "|" + rs.getDouble("igv")
+                        + "|0"
+                        + "|0"
+                        + "|0"
+                        + "|0"
+                        + "|0"
+                        + "|0"
+                        + "|0"
+                        + "|" + rs.getDouble("total")
+                        + "|" + rs.getString("moneda")
+                        + "|" + c_varios.formato_tc(rs.getDouble("tc"))
+                        + "|"
+                        + "|"
+                        + "|"
+                        + "|"
+                        + "|"
+                        + "|"
+                        + "|"
+                        + "|" + sestado
+                        + "|";
                 pw.println(linea);
             }
             c_conectar.cerrar(rs);
             c_conectar.cerrar(st);
 
-        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "LIBRO ELECTRONICO GENERADO CORRECTAMENTE");
+        } catch (IOException | SQLException e) {
             e.printStackTrace();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
         } finally {
             try {
                 // Nuevamente aprovechamos el finally para 
