@@ -27,6 +27,9 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
 
     String query;
     String periodo;
+
+    int fila_seleccionada;
+
     /**
      * Creates new form frm_ver_ventas
      */
@@ -43,6 +46,14 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         c_venta.ver_ventas(t_ventas, query);
     }
 
+    private void activar_botones() {
+        btn_eliminar.setEnabled(true);
+    }
+
+    private void desactivar_botones() {
+        btn_eliminar.setEnabled(false);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,8 +66,8 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        btn_modificar = new javax.swing.JButton();
+        btn_eliminar = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
         jButton3 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
@@ -101,25 +112,30 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         });
         jToolBar1.add(jButton6);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/application_edit.png"))); // NOI18N
-        jButton2.setText("Modificar");
-        jButton2.setEnabled(false);
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton2);
+        btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/application_edit.png"))); // NOI18N
+        btn_modificar.setText("Modificar");
+        btn_modificar.setEnabled(false);
+        btn_modificar.setFocusable(false);
+        btn_modificar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_modificar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(btn_modificar);
 
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
-        jButton7.setText("Eliminar");
-        jButton7.setEnabled(false);
-        jButton7.setFocusable(false);
-        jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton7);
+        btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
+        btn_eliminar.setText("Eliminar");
+        btn_eliminar.setEnabled(false);
+        btn_eliminar.setFocusable(false);
+        btn_eliminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_eliminar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btn_eliminar);
         jToolBar1.add(jSeparator2);
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/clipboard_text.png"))); // NOI18N
-        jButton3.setText("Ver Detalles");
+        jButton3.setText("ver Asiento");
         jButton3.setEnabled(false);
         jButton3.setFocusable(false);
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -171,6 +187,11 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        t_ventas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                t_ventasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(t_ventas);
 
         jLabel2.setText("Seleccionar Año:");
@@ -276,32 +297,55 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             int tipo_busqueda = cbx_buscar.getSelectedIndex();
             String busqueda = txt_buscar.getText();
-            
+
             if (tipo_busqueda == 2) {
                 periodo = busqueda;
                 query = "select v.id_ventas, v.periodo, v.fecha_emision, ds.cod_sunat, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.abreviatura as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
-                + "from ventas as v "
-                + "inner join entidad as en on en.id_entidad = v.id_entidad and en.id_usuario = v.id_usuario "
-                + "inner join documentos_sunat as ds on v.id_tido = ds.id_tido "
-                + "inner join moneda as m on m.id_moneda = v.id_moneda "
-                + "where v.periodo = '" + periodo + "' and v.id_empresa = '" + id_empresa + "' "
-                + "order by v.fecha_emision asc, v.numero asc";
+                        + "from ventas as v "
+                        + "inner join entidad as en on en.id_entidad = v.id_entidad and en.id_usuario = v.id_usuario "
+                        + "inner join documentos_sunat as ds on v.id_tido = ds.id_tido "
+                        + "inner join moneda as m on m.id_moneda = v.id_moneda "
+                        + "where v.periodo = '" + periodo + "' and v.id_empresa = '" + id_empresa + "' "
+                        + "order by v.fecha_emision asc, v.numero asc";
             }
-            
+
             c_venta.ver_ventas(t_ventas, query);
         }
     }//GEN-LAST:event_txt_buscarKeyPressed
 
+    private void t_ventasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_t_ventasMouseClicked
+        if (evt.getClickCount() == 2) {
+            fila_seleccionada = t_ventas.getSelectedRow();
+            if (fila_seleccionada > -1) {
+                c_venta.setId_venta(Integer.parseInt(t_ventas.getValueAt(fila_seleccionada, 11).toString()));
+                c_venta.setPeriodo(t_ventas.getValueAt(fila_seleccionada, 10).toString());
+                c_venta.setId_empresa(id_empresa);
+                activar_botones();
+            }
+        }
+    }//GEN-LAST:event_t_ventasMouseClicked
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        desactivar_botones();
+        if (fila_seleccionada > -1) {
+            int confirmado = JOptionPane.showConfirmDialog(null, "¿Esta Seguro de Eliminar el Documento de Venta?");
+            if (JOptionPane.OK_OPTION == confirmado) {
+                c_venta.eliminar();
+                c_venta.ver_ventas(t_ventas, query);
+            }
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_eliminar;
+    private javax.swing.JButton btn_modificar;
     private javax.swing.JComboBox<String> cbx_buscar;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;

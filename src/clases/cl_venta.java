@@ -213,6 +213,21 @@ public class cl_venta {
         return registrado;
     }
 
+    public boolean eliminar() {
+        boolean registrado = false;
+
+        Statement st = c_conectar.conexion();
+        String query = "delete from ventas "
+                + "where id_venta = '" + id_venta + "' and periodo = '" + periodo + "' and id_empresa = '" + id_empresa + "'";
+        int resultado = c_conectar.actualiza(st, query);
+        if (resultado > -1) {
+            registrado = true;
+        }
+        c_conectar.cerrar(st);
+
+        return registrado;
+    }
+
     public boolean validar_documento() {
         boolean existe = false;
         try {
