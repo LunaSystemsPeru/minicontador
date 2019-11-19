@@ -42,7 +42,7 @@ public class cl_plan_contable {
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = nombre.toUpperCase();
     }
 
     public boolean obtener_datos() {
@@ -54,7 +54,7 @@ public class cl_plan_contable {
             ResultSet rs = c_conectar.consulta(st, query);
             if (rs.next()) {
                 existe = true;
-                this.nombre = rs.getString("nombre");
+                this.nombre = rs.getString("nombre").toUpperCase();
             }
             c_conectar.cerrar(rs);
             c_conectar.cerrar(st);

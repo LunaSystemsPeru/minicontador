@@ -6,12 +6,18 @@
 package forms;
 
 import clases.cl_compra;
+import clases.cl_conectar;
 import clases.cl_entidad;
 import clases.cl_plan_contable;
 import clases.cl_varios;
+import com.mxrck.autocompleter.AutoCompleterCallback;
+import com.mxrck.autocompleter.TextAutoCompleter;
 import static forms.frm_reg_venta.origen;
 import java.awt.Frame;
 import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
 import minicontador.frm_menu;
 import models.m_documentos_sunat;
@@ -25,19 +31,22 @@ import vistas.frm_ver_ventas;
  * @author CALIDAD
  */
 public class frm_reg_compra extends javax.swing.JDialog {
-
+    
     cl_varios c_varios = new cl_varios();
-
+    cl_conectar c_conectar = new cl_conectar();
+    
     cl_entidad c_entidad = new cl_entidad();
     cl_compra c_compra = new cl_compra();
-
+    
     m_documentos_sunat m_documentos = new m_documentos_sunat();
     m_moneda m_moneda = new m_moneda();
-
+    
     int id_usuario = frm_menu.c_usuario.getId_usuario();
     int id_empresa = frm_menu.c_empresa.getId_empresa();
-
+    
     cl_plan_contable c_plan_contable = new cl_plan_contable();
+    
+    TextAutoCompleter tac_entidades = null;
 
     /**
      * Creates new form frm_reg_compra
@@ -45,12 +54,35 @@ public class frm_reg_compra extends javax.swing.JDialog {
     public frm_reg_compra(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-
+        
         txt_fec_emision.setText(c_varios.formato_fecha_vista(c_varios.getFechaActual()));
-
+        
         m_documentos.listar_combobox(cbx_tido);
-
+        
         m_moneda.listar_monedas(cbx_moneda);
+    }
+    
+    private void cargar_productos() {
+        try {
+            if (tac_entidades != null) {
+                tac_entidades.removeAllItems();
+            }
+            tac_entidades = new TextAutoCompleter(txt_proveedor);
+            
+            tac_entidades.setMode(0);
+            tac_entidades.setCaseSensitive(false);
+            Statement st = c_conectar.conexion();
+            String sql = "select documento from entidad where id_usuario = '" + id_usuario + "'";
+            ResultSet rs = c_conectar.consulta(st, sql);
+            while (rs.next()) {
+                tac_entidades.addItem(rs.getString("documento"));
+            }
+            c_conectar.cerrar(rs);
+            c_conectar.cerrar(st);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error " + e.getLocalizedMessage());
+            System.out.println(e.getLocalizedMessage());
+        }
     }
 
     /**
@@ -141,6 +173,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
             }
         });
 
+        txt_proveedor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_proveedor.setEnabled(false);
         txt_proveedor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -236,11 +269,11 @@ public class frm_reg_compra extends javax.swing.JDialog {
         txt_numero.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_numero.setEnabled(false);
         txt_numero.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txt_numeroKeyPressed(evt);
-            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txt_numeroKeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_numeroKeyPressed(evt);
             }
         });
 
@@ -383,6 +416,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         jButton1.setText("Guardar");
+        jButton1.setEnabled(false);
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -451,7 +485,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
             if (txt_proveedor.getText().length() == 11) {
                 //validar si existe
                 String ruc = txt_proveedor.getText().trim();
-
+                
                 c_entidad.setDocumento(ruc);
                 c_entidad.setId_usuario(id_usuario);
                 boolean existe = c_entidad.validar_documento();
@@ -489,7 +523,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
         c_compra.setIgv(Double.parseDouble(txt_igv.getText()));
         c_compra.setNumero(Integer.parseInt(txt_numero.getText()));
         c_compra.setPeriodo(Integer.parseInt(txt_periodo.getText()));
-        c_compra.setSerie(txt_serie.getText());
+        c_compra.setSerie(txt_serie.getText().toUpperCase());
         c_compra.setSubtotal(Double.parseDouble(txt_subtotal.getText()));
         c_compra.setTc(Double.parseDouble(txt_tc.getText()));
         c_compra.setTotal(Double.parseDouble(txt_total.getText()));
@@ -497,7 +531,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
         c_compra.setId_usuario(id_usuario);
         c_compra.obtener_id();
         c_compra.insertar();
-
+        
         JOptionPane.showMessageDialog(null, "DOCUMENTO AGREGADO CORRECTAMENTE");
         this.dispose();
         frm_ver_compras formulario = new frm_ver_compras();
@@ -562,7 +596,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
             if (txt_fec_vcto.getText().length() == 10) {
                 txt_proveedor.setEnabled(true);
                 txt_proveedor.requestFocus();
-
+                cargar_productos();
             }
         }
     }//GEN-LAST:event_txt_fec_vctoKeyPressed
@@ -581,7 +615,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
                 txt_tc.setEnabled(true);
                 txt_tc.requestFocus();
             }
-
+            
         }
     }//GEN-LAST:event_cbx_monedaKeyPressed
 
@@ -592,13 +626,13 @@ public class frm_reg_compra extends javax.swing.JDialog {
             if (num.length() > 2 && num.substring(0, 2).equals("60")) {
                 c_plan_contable.setId_cuenta(num);
                 if (c_plan_contable.obtener_datos()) {
-                    jTextField2.setText(c_plan_contable.getNombre());
+                    jTextField2.setText("COMPRAS " + c_plan_contable.getNombre());
                     txt_total.setEnabled(true);
                     txt_total.requestFocus();
                 } else {
                     JOptionPane.showMessageDialog(this, "El numero ingresado no es valido");
                 }
-
+                
             } else {
                 JOptionPane.showMessageDialog(this, "Debe ingresar un numero que comience en \"60\"");
             }
@@ -621,7 +655,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
                 txt_total.selectAll();
                 txt_total.requestFocus();
             }
-
+            
         }
     }//GEN-LAST:event_txt_totalKeyPressed
 

@@ -5,6 +5,7 @@
  */
 package clases;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -205,6 +206,21 @@ public class cl_compra {
         return registrado;
     }
 
+    public boolean eliminar() {
+        boolean registrado = false;
+
+        Statement st = c_conectar.conexion();
+        String query = "delete from compras "
+                + "where periodo = '" + periodo + "' and id_empresa = '" + id_empresa + "' and id_compras = '" + id_compra + "'";
+        int resultado = c_conectar.actualiza(st, query);
+        if (resultado > -1) {
+            registrado = true;
+        }
+        c_conectar.cerrar(st);
+
+        return registrado;
+    }
+
     public void obtener_id() {
         try {
             Statement st = c_conectar.conexion();
@@ -248,8 +264,12 @@ public class cl_compra {
             mostrar.addColumn("Sub Total S/");
             mostrar.addColumn("IGV S/");
             mostrar.addColumn("Total S/");
+            mostrar.addColumn("");
+            mostrar.addColumn("");
             //Creando las filas para el JTable
+            int contar = 0;
             while (rs.next()) {
+                contar++;
                 total = total + rs.getDouble("total");
                 double total_venta = rs.getDouble("total");
                 double tipo_cambio = rs.getDouble("tc");
@@ -265,7 +285,7 @@ public class cl_compra {
                 String valor_cliente = "";
                 String valor_estado = "";
 
-                Object[] fila = new Object[9];
+                Object[] fila = new Object[11];
                 fila[0] = rs.getString("periodo") + c_varios.ceros_izquieda_numero(3, rs.getInt("id_compras"));
                 fila[1] = c_varios.formato_fecha_vista(rs.getString("fecha_emision"));
                 fila[2] = rs.getString("doc_compra") + " / " + c_varios.ceros_izquieda_letras(4, rs.getString("serie")) + " - " + c_varios.ceros_izquieda_numero(7, rs.getInt("numero"));
@@ -275,8 +295,13 @@ public class cl_compra {
                 fila[6] = c_varios.formato_totales(subtotal_soles);
                 fila[7] = c_varios.formato_totales(igv_soles);
                 fila[8] = c_varios.formato_totales(total_soles);
+                fila[9] = rs.getInt("periodo");
+                fila[10] = rs.getInt("id_compras");
 
                 mostrar.addRow(fila);
+            }
+            if (contar == 0) {
+                JOptionPane.showMessageDialog(null, "NO SE HAN ENCONTRADO DATOS");
             }
             c_conectar.cerrar(st);
             c_conectar.cerrar(rs);
@@ -290,6 +315,16 @@ public class cl_compra {
             tabla.getColumnModel().getColumn(6).setPreferredWidth(80);
             tabla.getColumnModel().getColumn(7).setPreferredWidth(80);
             tabla.getColumnModel().getColumn(8).setPreferredWidth(80);
+            tabla.getColumnModel().getColumn(9).setPreferredWidth(0);
+            tabla.getColumnModel().getColumn(10).setPreferredWidth(0);
+            c_varios.centrar_celda(tabla, 0);
+            c_varios.centrar_celda(tabla, 1);
+            c_varios.centrar_celda(tabla, 2);
+            c_varios.centrar_celda(tabla, 4);
+            c_varios.derecha_celda(tabla, 5);
+            c_varios.derecha_celda(tabla, 6);
+            c_varios.derecha_celda(tabla, 7);
+            c_varios.derecha_celda(tabla, 8);
             //tabla.setDefaultRenderer(Object.class, new render_tables.render_ventas());
         } catch (SQLException e) {
             System.out.print(e);
@@ -302,8 +337,10 @@ public class cl_compra {
         String nombre_libro = "LE" + ruc + speriodo + "00080100001" + "1" + "11.txt";
         FileWriter fichero = null;
         PrintWriter pw = null;
+        File miDir = new File(".");
         try {
-            fichero = new FileWriter("C:\\Users\\user\\Documents\\minicontador\\libros_electronicos\\" + nombre_libro);
+            String path = miDir.getCanonicalPath();
+            fichero = new FileWriter(path + File.separator + "libros_electronicos" + File.separator + nombre_libro);
             pw = new PrintWriter(fichero);
 
             Statement st = c_conectar.conexion();
@@ -388,8 +425,10 @@ public class cl_compra {
         String nombre_libro = "LE" + ruc + speriodo + "00080200001" + "0" + "11.txt";
         FileWriter fichero = null;
         PrintWriter pw = null;
+        File miDir = new File(".");
         try {
-            fichero = new FileWriter("C:\\Users\\user\\Documents\\minicontador\\libros_electronicos\\" + nombre_libro);
+            String path = miDir.getCanonicalPath();
+            fichero = new FileWriter(path + File.separator + "libros_electronicos" + File.separator + nombre_libro);
             pw = new PrintWriter(fichero);
 
             //pw.println("");
