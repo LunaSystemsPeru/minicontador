@@ -21,7 +21,10 @@ public class frm_ver_diario extends javax.swing.JInternalFrame {
 
     cl_libro_diario c_libro = new cl_libro_diario();
     cl_entidad c_entidad = new cl_entidad();
-    
+
+    int id_usuario = frm_menu.c_usuario.getId_usuario();
+    int id_empresa = frm_menu.c_empresa.getId_empresa();
+
     /**
      * Creates new form frm_ver_diario
      */
@@ -33,11 +36,11 @@ public class frm_ver_diario extends javax.swing.JInternalFrame {
                 + "from libro_diario as ld "
                 + "inner join documentos_sunat as ds on ds.id_tido = ld.id_tido "
                 + "inner join moneda as m on m.id_moneda = ld.id_moneda "
+                + "where ld.id_empresa = '" + id_empresa + "' "
                 + "order by ld.subdiario , ld.id_diario asc";
         c_libro.ver_diario(t_diario, query);
-        
+
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.

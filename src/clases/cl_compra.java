@@ -335,12 +335,17 @@ public class cl_compra {
     public void generar_le(String query, String ruc, String speriodo) {
         System.out.println(query);
         String nombre_libro = "LE" + ruc + speriodo + "00080100001" + "1" + "11.txt";
+
+        String sdirectorio = c_varios.obtenerDireccionCarpeta() + File.separator + "libros_electronicos" + File.separator + ruc + File.separator + speriodo;
+        File directorio = new File(sdirectorio);
+        if (!directorio.exists()) {
+            directorio.mkdirs();
+        }
+
         FileWriter fichero = null;
         PrintWriter pw = null;
-        File miDir = new File(".");
         try {
-            String path = miDir.getCanonicalPath();
-            fichero = new FileWriter(path + File.separator + "libros_electronicos" + File.separator + nombre_libro);
+            fichero = new FileWriter(directorio + File.separator + nombre_libro);
             pw = new PrintWriter(fichero);
 
             Statement st = c_conectar.conexion();
@@ -423,12 +428,17 @@ public class cl_compra {
 
     public void generar_le_domiciliado(String query, String ruc, String speriodo) {
         String nombre_libro = "LE" + ruc + speriodo + "00080200001" + "0" + "11.txt";
+
+        String sdirectorio = c_varios.obtenerDireccionCarpeta() + File.separator + "libros_electronicos" + File.separator + ruc + File.separator + speriodo;
+        File directorio = new File(sdirectorio);
+        if (!directorio.exists()) {
+            directorio.mkdirs();
+        }
+
         FileWriter fichero = null;
         PrintWriter pw = null;
-        File miDir = new File(".");
         try {
-            String path = miDir.getCanonicalPath();
-            fichero = new FileWriter(path + File.separator + "libros_electronicos" + File.separator + nombre_libro);
+            fichero = new FileWriter(directorio + File.separator + nombre_libro);
             pw = new PrintWriter(fichero);
 
             //pw.println("");

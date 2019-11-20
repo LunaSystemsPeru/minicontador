@@ -138,7 +138,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/iconos/clipboard_text.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="ver Asiento"/>
+            <Property name="text" type="java.lang.String" value="ver Asientos"/>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>

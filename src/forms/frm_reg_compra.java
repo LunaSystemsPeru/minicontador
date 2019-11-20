@@ -578,7 +578,10 @@ public class frm_reg_compra extends javax.swing.JDialog {
             if (txt_fec_emision.getText().length() == 10) {
                 String fecha = c_varios.formato_fecha_mysql(txt_fec_emision.getText());
                 String periodo = txt_periodo.getText();
-                if (c_varios.formato_periodo(fecha).equals(periodo)) {
+                int periodo_ingresado = Integer.parseInt(periodo);
+                int periodo_fecha = Integer.parseInt(c_varios.formato_periodo(fecha));
+                
+                if (periodo_fecha <= periodo_ingresado) {
                     txt_fec_vcto.setText(txt_fec_emision.getText());
                     cbx_tido.setEnabled(true);
                     cbx_tido.requestFocus();

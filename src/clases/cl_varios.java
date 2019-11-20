@@ -570,6 +570,17 @@ public class cl_varios {
         String periodo = anio + String.format("%02d", mes);
         return periodo;
     }
+    
+    public String obtenerDireccionCarpeta() {
+        File midireccion = new File(".");
+        String path = null;
+        try {
+            path = midireccion.getCanonicalPath();
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+        return path;
+    }
 }
 
 

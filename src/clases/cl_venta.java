@@ -5,6 +5,7 @@
  */
 package clases;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -369,10 +370,17 @@ public class cl_venta {
 
     public void generar_le(String query, String ruc, String speriodo) {
         String nombre_libro = "LE" + ruc + speriodo + "00140100001" + "1" + "11.txt";
+
+        String sdirectorio = c_varios.obtenerDireccionCarpeta() + File.separator + "libros_electronicos" + File.separator + ruc + File.separator + speriodo;
+        File directorio = new File(sdirectorio);
+        if (!directorio.exists()) {
+            directorio.mkdirs();
+        }
+
         FileWriter fichero = null;
         PrintWriter pw = null;
         try {
-            fichero = new FileWriter("C:\\Users\\user\\Documents\\minicontador\\libros_electronicos\\" + nombre_libro);
+            fichero = new FileWriter(directorio + File.separator + nombre_libro);
             pw = new PrintWriter(fichero);
 
             Statement st = c_conectar.conexion();

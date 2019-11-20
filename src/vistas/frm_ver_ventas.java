@@ -12,6 +12,8 @@ import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import minicontador.frm_menu;
+import models.m_anios;
+import objects.o_combobox;
 
 /**
  *
@@ -21,6 +23,8 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
 
     cl_varios c_varios = new cl_varios();
     cl_venta c_venta = new cl_venta();
+
+    m_anios manios = new m_anios();
 
     int id_empresa = frm_menu.c_empresa.getId_empresa();
     int id_usuario = frm_menu.c_usuario.getId_usuario();
@@ -44,6 +48,11 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
                 + "where v.periodo = '" + periodo + "' and v.id_empresa = '" + id_empresa + "' "
                 + "order by v.fecha_emision asc, v.numero asc";
         c_venta.ver_ventas(t_ventas, query);
+
+        manios.listar_ventas(jComboBox3);
+        o_combobox omanios = (o_combobox) jComboBox3.getSelectedItem();
+
+        manios.listar_periodo_ventas(omanios.getId(), jComboBox1);
     }
 
     private void activar_botones() {
@@ -135,7 +144,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         jToolBar1.add(jSeparator2);
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/clipboard_text.png"))); // NOI18N
-        jButton3.setText("ver Asiento");
+        jButton3.setText("ver Asientos");
         jButton3.setEnabled(false);
         jButton3.setFocusable(false);
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

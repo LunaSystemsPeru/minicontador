@@ -45,7 +45,7 @@ public class frm_reg_venta extends javax.swing.JDialog {
     m_documentos_sunat m_documentos = new m_documentos_sunat();
     m_moneda m_moneda = new m_moneda();
     m_cuentas m_cuentas = new m_cuentas();
-    cl_plan_contable c_plan_contable=new cl_plan_contable();
+    cl_plan_contable c_plan_contable = new cl_plan_contable();
 
     int id_usuario = frm_menu.c_usuario.getId_usuario();
     int id_empresa = frm_menu.c_empresa.getId_empresa();
@@ -693,8 +693,8 @@ public class frm_reg_venta extends javax.swing.JDialog {
         c_diario.setId_empresa_diario(c_libro.getId_empresa());
 
         //para cuenta en70
-       // o_combobox o_cuenta70 = (o_combobox) cbx_cuentas_70.getSelectedItem();
-      //  c_libro.setId_cuenta(o_cuenta70.getId() + "");
+        // o_combobox o_cuenta70 = (o_combobox) cbx_cuentas_70.getSelectedItem();
+        //  c_libro.setId_cuenta(o_cuenta70.getId() + "");
         c_libro.setDebe(0);
         c_libro.setHaber(c_venta.getSubtotal());
         c_libro.obtener_id();
@@ -706,7 +706,7 @@ public class frm_reg_venta extends javax.swing.JDialog {
 
         //para cuenta en12
 //        o_combobox o_cuenta12 = (o_combobox) cbx_cuentas_12.getSelectedItem();
-       // c_libro.setId_cuenta(o_cuenta12.getId() + "");
+        // c_libro.setId_cuenta(o_cuenta12.getId() + "");
         c_libro.setDebe(c_venta.getTotal());
         c_libro.setHaber(0);
         c_libro.obtener_id();
@@ -726,6 +726,31 @@ public class frm_reg_venta extends javax.swing.JDialog {
         //diario 3
         c_diario.setId_diario(c_libro.getId_diario());
         c_diario.insertar();
+    }
+
+    private void insertarDiario() {
+        c_libro.setPeriodo(c_venta.getPeriodo());
+        c_libro.setId_empresa(id_empresa);
+        c_libro.setId_usuario(id_usuario);
+        c_libro.obtener_subdiario();
+        c_libro.setTipo_asiento("M5");
+        c_libro.setId_moneda(1);
+
+        c_libro.setId_ccosto("");
+        c_libro.setDoc_entidad(txt_ruc.getText());
+        c_libro.setId_tido(c_venta.getId_tido());
+        c_libro.setSerie(c_venta.getSerie());
+        c_libro.setNumero(c_venta.getNumero());
+        c_libro.setFecha_cble(c_venta.getFecha());
+        c_libro.setFecha_vcto(c_libro.getFecha_cble());
+        c_libro.setGlosa("VENTA");
+        c_libro.setCod_libro("");
+        c_libro.setEstado(1);
+        c_libro.setId_cuenta(jTextField1.getText());
+        c_libro.setDebe(c_venta.getTotal() / 1.18);
+        c_libro.setHaber(0);
+        c_libro.obtener_id();
+        c_libro.insertar();
     }
 
     private void btn_grabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_grabarActionPerformed
@@ -763,7 +788,7 @@ public class frm_reg_venta extends javax.swing.JDialog {
             c_venta.setSubtotal(Double.parseDouble(txt_subtotal.getText()));
             c_venta.setIgv(Double.parseDouble(txt_igv.getText()));
             c_venta.setTotal(Double.parseDouble(txt_total.getText()));
-            c_venta.setTipo_venta(Integer.parseInt(c_plan_contable.getId_cuenta())); 
+            c_venta.setTipo_venta(Integer.parseInt(c_plan_contable.getId_cuenta()));
             c_venta.setPeriodo(c_varios.formato_periodo(c_venta.getFecha()));
             c_venta.setEstado(1);
             c_venta.setId_usuario(id_usuario);
@@ -771,6 +796,7 @@ public class frm_reg_venta extends javax.swing.JDialog {
         }
 
         if (c_venta.insertar()) {
+            insertarDiario();
             if (id_tido == 4 || id_tido == 5) {
                 c_nota.setId_nota(c_venta.getId_venta());
                 c_nota.setPeriodo_nota(c_venta.getPeriodo());
@@ -850,19 +876,19 @@ public class frm_reg_venta extends javax.swing.JDialog {
 
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            String num=jTextField1.getText();
-            System.out.println(num.length() + "<>" +num.substring(0, 2));
-            if (num.length()>2&&num.substring(0, 2).equals("70")) { 
-                c_plan_contable.setId_cuenta(num); 
+            String num = jTextField1.getText();
+            System.out.println(num.length() + "<>" + num.substring(0, 2));
+            if (num.length() > 2 && num.substring(0, 2).equals("70")) {
+                c_plan_contable.setId_cuenta(num);
                 if (c_plan_contable.obtener_datos()) {
                     jTextField2.setText(c_plan_contable.getNombre());
                     txt_total.setEnabled(true);
                     txt_total.requestFocus();
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(this, "El numero ingresado no es valido");
                 }
-                
-            }else{
+
+            } else {
                 JOptionPane.showMessageDialog(this, "Debe ingresar un numero que comience en \"70\"");
             }
         }
