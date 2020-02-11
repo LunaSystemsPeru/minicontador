@@ -626,7 +626,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String num = jTextField1.getText();
             System.out.println(num.length() + "<>" + num.substring(0, 2));
-            if (num.length() > 2 && num.substring(0, 2).equals("60")) {
+            if (num.length() > 2 && (num.substring(0, 2).equals("60") || num.substring(0, 2).equals("63") || num.substring(0, 2).equals("65") ) ) {
                 c_plan_contable.setId_cuenta(num);
                 if (c_plan_contable.obtener_datos()) {
                     jTextField2.setText("COMPRAS " + c_plan_contable.getNombre());
@@ -637,7 +637,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
                 }
                 
             } else {
-                JOptionPane.showMessageDialog(this, "Debe ingresar un numero que comience en \"60\"");
+                JOptionPane.showMessageDialog(this, "Debe ingresar un numero que pertenezca a compras 60, 63, 65");
             }
         }
     }//GEN-LAST:event_jTextField1KeyPressed

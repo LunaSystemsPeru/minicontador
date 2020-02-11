@@ -338,9 +338,9 @@ public class cl_venta {
                 fila[3] = valor_cliente;
                 fila[4] = rs.getString("moneda");
                 fila[5] = c_varios.formato_totales(total_venta);
-                fila[6] = c_varios.formato_totales(subtotal_soles);
-                fila[7] = c_varios.formato_totales(igv_soles);
-                fila[8] = c_varios.formato_totales(total_soles);
+                fila[6] = c_varios.formato_numero(subtotal_soles);
+                fila[7] = c_varios.formato_numero(igv_soles);
+                fila[8] = c_varios.formato_numero(total_soles);
                 fila[9] = valor_estado;
                 fila[10] = rs.getString("periodo");
                 fila[11] = rs.getInt("id_ventas");

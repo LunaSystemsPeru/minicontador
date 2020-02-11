@@ -22,6 +22,7 @@ import javax.swing.table.TableRowSorter;
 public class cl_empresas {
 
     cl_conectar c_conectar = new cl_conectar();
+    cl_varios c_varios = new cl_varios();
 
     private int id_empresa;
     private int id_entidad;
@@ -197,6 +198,63 @@ public class cl_empresas {
             tabla.getColumnModel().getColumn(4).setMinWidth(0);
             tabla.getColumnModel().getColumn(4).setMaxWidth(0);
             tabla.getColumnModel().getColumn(4).setPreferredWidth(0);
+            //tabla.setDefaultRenderer(Object.class, new render_tables.render_clientes());
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }
+
+    public void ver_meses(JTable tabla) {
+        try {
+            DefaultTableModel mostrar = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int fila, int columna) {
+                    return false;
+                }
+            };
+            Statement st = c_conectar.conexion();
+            String query = "select m.nombre, "
+                    + "(select ifnull(sum(v.igv),0) from ventas as v where v.id_empresa = '" + this.id_empresa + "' and v.periodo like concat(year(current_date), lpad(m.id, 2, '0')) ) as igv_venta, "
+                    + "(select ifnull(sum(c.igv),0) from compras as c where c.id_empresa = '" + this.id_empresa + "' and c.periodo like concat(year(current_date), lpad(m.id, 2, '0')) ) as igv_compra "
+                    + "from mes as m "
+                    + "order by m.id asc";
+            ResultSet rs = c_conectar.consulta(st, query);
+
+            mostrar.addColumn("Mes");
+            mostrar.addColumn("IGV Venta");
+            mostrar.addColumn("IGV Compra");
+            mostrar.addColumn("Diferencia");
+            mostrar.addColumn("Acumulado");
+
+            double acumulado = 0;
+            while (rs.next()) {
+                double igv_venta = rs.getDouble("igv_venta");
+                double igv_compra = rs.getDouble("igv_compra");
+                acumulado += (igv_venta - igv_compra);
+
+                Object fila[] = new Object[5];
+
+                fila[0] = rs.getString("nombre");
+                fila[1] = c_varios.formato_totales(igv_venta);
+                fila[2] = c_varios.formato_totales(igv_compra);
+                fila[3] = c_varios.formato_totales(igv_venta - igv_compra);
+                fila[4] = c_varios.formato_totales(acumulado);
+                mostrar.addRow(fila);
+            }
+
+            c_conectar.cerrar(st);
+            c_conectar.cerrar(rs);
+            tabla.setModel(mostrar);
+            tabla.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tabla.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tabla.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tabla.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tabla.getColumnModel().getColumn(4).setPreferredWidth(100);
+            c_varios.derecha_celda(tabla, 1);
+            c_varios.derecha_celda(tabla, 2);
+            c_varios.derecha_celda(tabla, 3);
+            c_varios.derecha_celda(tabla, 4);
             //tabla.setDefaultRenderer(Object.class, new render_tables.render_clientes());
         } catch (SQLException ex) {
             System.out.println(ex);

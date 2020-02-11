@@ -9,6 +9,7 @@ import clases.cl_varios;
 import clases.cl_venta;
 import forms.frm_reg_venta;
 import java.awt.Frame;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +45,11 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
      */
     public frm_ver_ventas() {
         initComponents();
+        manios.listar_ventas(jComboBox3);
+        o_combobox omanios = (o_combobox) jComboBox3.getSelectedItem();
+
+        manios.listar_periodo_ventas(omanios.getId(), jComboBox1);
+
         periodo = c_varios.obtener_periodo();
         query = "select v.id_ventas, v.periodo, v.fecha_emision, ds.cod_sunat, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.abreviatura as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
                 + "from ventas as v "
@@ -53,11 +59,8 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
                 + "where v.periodo = '" + periodo + "' and v.id_empresa = '" + id_empresa + "' "
                 + "order by v.fecha_emision asc, v.numero asc";
         c_venta.ver_ventas(t_ventas, query);
+        sumar_tabla();
 
-        manios.listar_ventas(jComboBox3);
-        o_combobox omanios = (o_combobox) jComboBox3.getSelectedItem();
-
-        manios.listar_periodo_ventas(omanios.getId(), jComboBox1);
     }
 
     private void activar_botones() {
@@ -66,6 +69,20 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
 
     private void desactivar_botones() {
         btn_eliminar.setEnabled(false);
+    }
+
+    private void sumar_tabla() {
+        double subtotal = 0;
+        double igv = 0;
+        double total = 0;
+        for (int i = 0; i < t_ventas.getRowCount(); i++) {
+            subtotal += (Double.parseDouble(t_ventas.getValueAt(i, 6).toString()));
+            igv += (Double.parseDouble(t_ventas.getValueAt(i, 7).toString()));
+            total += (Double.parseDouble(t_ventas.getValueAt(i, 8).toString()));
+        }
+        jTextField1.setText(c_varios.formato_totales(subtotal));
+        jTextField2.setText(c_varios.formato_totales(igv));
+        jTextField3.setText(c_varios.formato_totales(total));
     }
 
     /**
@@ -98,6 +115,13 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         cbx_buscar = new javax.swing.JComboBox<>();
         jComboBox3 = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jButton7 = new javax.swing.JButton();
 
         setTitle("Ver Documentos de Venta");
 
@@ -180,7 +204,8 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         });
         jToolBar1.add(jButton5);
 
-        jButton2.setText("Generar");
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/clipboard_text.png"))); // NOI18N
+        jButton2.setText("Generar Excel");
         jButton2.setFocusable(false);
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -233,6 +258,16 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         jLabel2.setText("Seleccionar Año:");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "201801", "201802", "201803", "201804", "201805" }));
+        jComboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBox1MouseClicked(evt);
+            }
+        });
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         cbx_buscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "POR DOCUMENTO", "POR CLIENTE", "POR PERIODO" }));
         cbx_buscar.addActionListener(new java.awt.event.ActionListener() {
@@ -242,32 +277,80 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         });
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2018" }));
+        jComboBox3.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox3ItemStateChanged(evt);
+            }
+        });
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Periodo:");
+
+        jLabel4.setText("total SubTotal: ");
+
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField1.setText("0.00");
+
+        jTextField2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField2.setText("0.00");
+
+        jLabel5.setText("total IGV: ");
+
+        jLabel6.setText("total General: ");
+
+        jTextField3.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField3.setText("0.00");
+
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/find.png"))); // NOI18N
+        jButton7.setText("Ver Periodo");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 1101, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbx_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton7)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -282,9 +365,21 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbx_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -346,6 +441,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
             }
 
             c_venta.ver_ventas(t_ventas, query);
+            sumar_tabla();
         }
     }//GEN-LAST:event_txt_buscarKeyPressed
 
@@ -368,35 +464,36 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
             if (JOptionPane.OK_OPTION == confirmado) {
                 c_venta.eliminar();
                 c_venta.ver_ventas(t_ventas, query);
+                sumar_tabla();
             }
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        int indexRow =t_ventas.getSelectedRow();
-        
-        String nombre_reporte="registro_vetas";
-        
+        int indexRow = t_ventas.getSelectedRow();
+
+        String nombre_reporte = "registro_vetas";
+
         //ver reporte en pdf;        
         File miDir = new File(".");
         try {
             Map<String, Object> parametros = new HashMap<>();
             String path = miDir.getCanonicalPath();
             String direccion = path + File.separator + "reports" + File.separator + "subreports" + File.separator;
-            
+
             System.out.println(direccion);
             parametros.put("SUBREPORT_DIR", direccion);
             parametros.put("JRParameter.REPORT_LOCALE", Locale.ENGLISH);
             parametros.put("REPORT_LOCALE", Locale.ENGLISH);
             parametros.put("IdVenta", t_ventas.getValueAt(indexRow, 11));
             parametros.put("Periodo", t_ventas.getValueAt(indexRow, 10));
-            parametros.put("Ruc",frm_menu.c_entidad.getDocumento() );
+            parametros.put("Ruc", frm_menu.c_entidad.getDocumento());
             parametros.put("Razon_Social", frm_menu.c_entidad.getNombre());
-            c_varios.ver_reporte_excel(nombre_reporte,parametros,nombre_reporte);
+            c_varios.ver_reporte_excel(nombre_reporte, parametros, nombre_reporte);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
         }
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -406,6 +503,39 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_modificarActionPerformed
+
+    private void jComboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseClicked
+
+    }//GEN-LAST:event_jComboBox1MouseClicked
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        periodo = jComboBox1.getSelectedItem().toString();
+        query = "select v.id_ventas, v.periodo, v.fecha_emision, ds.cod_sunat, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.abreviatura as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
+                + "from ventas as v "
+                + "inner join entidad as en on en.id_entidad = v.id_entidad and en.id_usuario = v.id_usuario "
+                + "inner join documentos_sunat as ds on v.id_tido = ds.id_tido "
+                + "inner join moneda as m on m.id_moneda = v.id_moneda "
+                + "where v.periodo = '" + periodo + "' and v.id_empresa = '" + id_empresa + "' "
+                + "order by v.fecha_emision asc, v.numero asc";
+        c_venta.ver_ventas(t_ventas, query);
+        sumar_tabla();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+
+    }//GEN-LAST:event_jComboBox3ActionPerformed
+
+    private void jComboBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox3ItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            o_combobox omanios = (o_combobox) jComboBox3.getSelectedItem();
+
+            manios.listar_periodo_ventas(omanios.getId(), jComboBox1);
+        }
+    }//GEN-LAST:event_jComboBox3ItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -418,15 +548,22 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTable t_ventas;
     private javax.swing.JTextField txt_buscar;
