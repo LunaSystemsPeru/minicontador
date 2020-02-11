@@ -133,7 +133,7 @@ public class cl_usuario {
             Statement st = c_conectar.conexion();
             String query = "select * "
                     + "from usuarios "
-                    + "where email = '" + this.email + "'";
+                    + "where email = '" + this.email + "' or celular = '"+this.celular+"'";
             ResultSet rs = c_conectar.consulta(st, query);
 
             if (rs.next()) {

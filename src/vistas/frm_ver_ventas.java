@@ -414,7 +414,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        query = "select v.id_ventas, v.periodo, v.fecha_emision, ds.cod_sunat, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.abreviatura as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
+        query = "select v.id_ventas, v.periodo, v.fecha_emision, ds.cod_sunat, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.cod_sunat as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
                 + "from ventas as v "
                 + "inner join entidad as en on en.id_entidad = v.id_entidad and en.id_usuario = v.id_usuario "
                 + "inner join documentos_sunat as ds on v.id_tido = ds.id_tido "

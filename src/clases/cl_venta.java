@@ -409,17 +409,17 @@ public class cl_venta {
                         + "|" + rs.getString("doc_cliente")
                         + "|" + rs.getString("nombre_cliente")
                         + "|0"
-                        + "|" + rs.getDouble("subtotal")
+                        + "|" + c_varios.formato_numero(rs.getDouble("subtotal"))
                         + "|0"
-                        + "|" + rs.getDouble("igv")
-                        + "|0"
-                        + "|0"
+                        + "|" + c_varios.formato_numero(rs.getDouble("igv"))
                         + "|0"
                         + "|0"
                         + "|0"
                         + "|0"
                         + "|0"
-                        + "|" + rs.getDouble("total")
+                        + "|0"
+                        + "|0"
+                        + "|" + c_varios.formato_numero(rs.getDouble("total"))
                         + "|" + rs.getString("moneda")
                         + "|" + c_varios.formato_tc(rs.getDouble("tc"))
                         + "|"

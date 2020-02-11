@@ -804,7 +804,7 @@ public class frm_reg_venta extends javax.swing.JDialog {
                 c_nota.insertar();
             }
             //llenar_libro();
-            JOptionPane.showMessageDialog(null, "DOCUMENTO AGREGADO CORRECTAMENTE");
+            JOptionPane.showMessageDialog(null, "DOCUMENTO AGREGADO CORRECTAMENTE \nESTE DOCUMENTO GENERO EL CODIGO: " + c_venta.getPeriodo() + c_venta.getId_venta());
             this.dispose();
             frm_ver_ventas formulario = new frm_ver_ventas();
             c_varios.llamar_ventana_ancha(formulario);

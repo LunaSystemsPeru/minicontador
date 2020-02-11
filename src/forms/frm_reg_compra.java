@@ -532,7 +532,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
         c_compra.obtener_id();
         c_compra.insertar();
         
-        JOptionPane.showMessageDialog(null, "DOCUMENTO AGREGADO CORRECTAMENTE");
+        JOptionPane.showMessageDialog(null, "DOCUMENTO AGREGADO CORRECTAMENTE \nESTE DOCUMENTO HA GENERADO EL CODIGO: " + c_compra.getPeriodo() + c_compra.getId_compra());
         this.dispose();
         frm_ver_compras formulario = new frm_ver_compras();
         c_varios.llamar_ventana_ancha(formulario);

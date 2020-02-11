@@ -376,8 +376,8 @@ public class cl_compra {
                         + "|" + tipo_cliente
                         + "|" + rs.getString("doc_cliente")
                         + "|" + rs.getString("nombre_cliente")
-                        + "|" + rs.getDouble("subtotal")
-                        + "|" + rs.getDouble("igv")
+                        + "|" + c_varios.formato_numero(rs.getDouble("subtotal"))
+                        + "|" + c_varios.formato_numero(rs.getDouble("igv"))
                         + "|0"
                         + "|0"
                         + "|0"
@@ -385,7 +385,7 @@ public class cl_compra {
                         + "|0"
                         + "|0"
                         + "|0"
-                        + "|" + rs.getDouble("total")
+                        + "|" + c_varios.formato_numero(rs.getDouble("total"))
                         + "|" + rs.getString("moneda")
                         + "|" + c_varios.formato_tc(rs.getDouble("tc"))
                         + "|"

@@ -97,6 +97,20 @@ public class frm_menu extends javax.swing.JFrame {
         }
     }
 
+    private void resumar_meses() {
+        try {
+            Timer timer = new Timer(35000, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    c_empresa.ver_meses(jTable1);
+                }
+            });
+            timer.start();
+            timer.setRepeats(true);
+        } catch (Exception e) {
+            System.out.println("Error grave " + e.getLocalizedMessage());
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -830,6 +844,7 @@ public class frm_menu extends javax.swing.JFrame {
             if (txt_email_login.getText().length() > 3) {
                 //validar_conexion();
                 c_usuario.setEmail(txt_email_login.getText().trim());
+                c_usuario.setCelular(txt_email_login.getText().trim());
                 boolean existe_email = c_usuario.validar_email();
                 if (existe_email) {
                     c_usuario.obtener_datos();
@@ -837,7 +852,7 @@ public class frm_menu extends javax.swing.JFrame {
                     txt_contra_login.setEnabled(true);
                     txt_contra_login.requestFocus();
                 } else {
-                    JOptionPane.showMessageDialog(frm_login, "ESTE CORREO NO ESTA REGISTRADO, POR FAVOR HAGA CLIC EN CREAR CUENTA, SI DESEA ALGUNA.");
+                    JOptionPane.showMessageDialog(frm_login, "ESTE USUARIO NO ESTA REGISTRADO, POR FAVOR HAGA CLIC EN CREAR CUENTA, SI DESEA ALGUNA.");
                     txt_email_login.selectAll();
                     txt_email_login.requestFocus();
                 }
@@ -913,8 +928,9 @@ public class frm_menu extends javax.swing.JFrame {
         c_empresa.setId_empresa(id_empresa);
         c_empresa.setId_usuario(c_usuario.getId_usuario());
         c_empresa.obtener_datos();
-        
+
         c_empresa.ver_meses(jTable1);
+        resumar_meses();
 
         c_entidad.setId_usuario(c_empresa.getId_usuario());
         c_entidad.setId_entidad(c_empresa.getId_entidad());

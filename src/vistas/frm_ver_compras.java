@@ -55,7 +55,7 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
                 + "INNER JOIN moneda AS m ON m.id_moneda = c.id_moneda "
                 + "where c.periodo = '" + periodo + "' and c.id_empresa = '" + id_empresa + "' "
                 + "order by c.fecha_emision asc, c.numero asc";
-        // System.out.println(query);
+         System.out.println(query);
         c_compra.ver_compras(t_compras, query);
         sumar_tabla();
     }
@@ -351,14 +351,13 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
         String ruc = frm_menu.c_entidad.getDocumento();
         query = "SELECT c.id_compras, c.periodo, c.fecha_emision, ds.cod_sunat, ds.abreviatura "
                 + "AS doc_compra, c.serie, c.numero, en.documento AS doc_cliente, "
-                + "en.nombre AS nombre_cliente, m.abreviatura AS moneda, c.tc, c.tipo_compra, c.subtotal, c.igv, c.total "
+                + "en.nombre AS nombre_cliente, m.cod_sunat AS moneda, c.tc, c.tipo_compra, c.subtotal, c.igv, c.total "
                 + "FROM compras AS c "
                 + "INNER JOIN entidad AS en ON en.id_entidad = c.id_entidad AND en.id_usuario = c.id_usuario "
                 + "INNER JOIN documentos_sunat AS ds ON c.id_tido = ds.id_tido "
                 + "INNER JOIN moneda AS m ON m.id_moneda = c.id_moneda "
                 + "where c.periodo = '" + periodo + "' and c.id_empresa = '" + id_empresa + "' "
                 + "order by c.fecha_emision asc, c.numero asc";
-
         c_compra.generar_le_domiciliado(query, ruc, periodo);
         c_compra.generar_le(query, ruc, periodo);
     }//GEN-LAST:event_jButton5ActionPerformed
