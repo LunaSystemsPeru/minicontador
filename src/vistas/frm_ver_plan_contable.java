@@ -14,12 +14,14 @@ import clases.cl_plan_contable;
 public class frm_ver_plan_contable extends javax.swing.JInternalFrame {
 
     cl_plan_contable c_cuentas = new cl_plan_contable();
+    String query;
+
     /**
      * Creates new form frm_ver_monedas
      */
     public frm_ver_plan_contable() {
         initComponents();
-        String query = "select * "
+        query = "select * "
                 + "from cuentas_contables "
                 + "order by id_cuenta_contable asc";
         c_cuentas.ver_cuentas(t_cuentas, query);
@@ -37,7 +39,7 @@ public class frm_ver_plan_contable extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         t_cuentas = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
+        btn_agregar = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
         jButton2 = new javax.swing.JButton();
@@ -67,12 +69,17 @@ public class frm_ver_plan_contable extends javax.swing.JInternalFrame {
 
         jToolBar1.setFloatable(false);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
-        jButton1.setText("Agregar");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton1);
+        btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btn_agregar.setText("Agregar");
+        btn_agregar.setFocusable(false);
+        btn_agregar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_agregar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btn_agregar);
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/application_edit.png"))); // NOI18N
         jButton3.setText("Modificar");
@@ -89,6 +96,11 @@ public class frm_ver_plan_contable extends javax.swing.JInternalFrame {
         jButton2.setFocusable(false);
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton2);
         jToolBar1.add(jSeparator2);
 
@@ -175,9 +187,35 @@ public class frm_ver_plan_contable extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (jTextField1.getText().length() > 0 & jTextField2.getText().length() > 0) {
+            c_cuentas.setId_cuenta(jTextField1.getText().trim());
+            c_cuentas.setNombre(jTextField2.getText().trim().toUpperCase());
+            c_cuentas.insertar();
+            c_cuentas.ver_cuentas(t_cuentas, query);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
+        btn_agregar.setEnabled(false);
+        jButton2.setEnabled(true);
+        jTextField2.setEnabled(true);
+        jTextField1.setEnabled(true);
+        jTextField1.requestFocus();
+        limpiar();
+    }//GEN-LAST:event_btn_agregarActionPerformed
+
+    private void limpiar() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField2.setEnabled(false);
+        jTextField1.setEnabled(false);
+        btn_agregar.setEnabled(true);
+        jButton2.setEnabled(false);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btn_agregar;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

@@ -45,7 +45,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
      */
     public frm_ver_ventas() {
         initComponents();
-        manios.listar_ventas(jComboBox3);
+        manios.listar_anios_ventas(jComboBox3);
         o_combobox omanios = (o_combobox) jComboBox3.getSelectedItem();
 
         manios.listar_periodo_ventas(omanios.getId(), jComboBox1);

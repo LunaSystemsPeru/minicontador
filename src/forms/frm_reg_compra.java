@@ -292,7 +292,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
             }
         });
 
-        jLabel12.setText("Tipo Venta:");
+        jLabel12.setText("Tipo Compra:");
 
         jTextField1.setEnabled(false);
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -541,7 +541,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
 
     private void txt_periodoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_periodoKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (txt_periodo.getText().length() > 4) {
+            if (txt_periodo.getText().trim().length() == 6) {
                 txt_fec_emision.setEnabled(true);
                 txt_fec_emision.requestFocus();
             }

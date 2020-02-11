@@ -64,6 +64,21 @@ public class cl_plan_contable {
         return existe;
     }
 
+    public boolean insertar() {
+        boolean registrado = false;
+
+        Statement st = c_conectar.conexion();
+        String query = "insert into cuentas_contables "
+                + "values ('"+id_cuenta+"', '"+nombre+"')";
+        int resultado = c_conectar.actualiza(st, query);
+        if (resultado > -1) {
+            registrado = true;
+        }
+        c_conectar.cerrar(st);
+
+        return registrado;
+    }
+    
     public void ver_cuentas(JTable tabla, String query) {
         try {
             DefaultTableModel mostrar = new DefaultTableModel() {

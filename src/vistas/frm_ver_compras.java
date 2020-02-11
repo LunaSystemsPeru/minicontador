@@ -12,6 +12,8 @@ import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import minicontador.frm_menu;
+import models.m_anios;
+import objects.o_combobox;
 
 /**
  *
@@ -21,6 +23,8 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
 
     cl_compra c_compra = new cl_compra();
     cl_varios c_varios = new cl_varios();
+    
+    m_anios manios = new m_anios();
 
     int id_empresa = frm_menu.c_empresa.getId_empresa();
     int id_usuario = frm_menu.c_usuario.getId_usuario();
@@ -34,6 +38,12 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
      */
     public frm_ver_compras() {
         initComponents();
+        manios.listar_anios_compras(jComboBox3);
+        o_combobox omanios = (o_combobox) jComboBox3.getSelectedItem();
+
+        manios.listar_periodo_compras(omanios.getId(), jComboBox1);
+
+        
         periodo = c_varios.obtener_periodo();
         query = "SELECT c.id_compras, c.periodo, c.fecha_emision, ds.cod_sunat, ds.abreviatura "
                 + "AS doc_compra, c.serie, c.numero, en.documento AS doc_cliente, "
@@ -46,6 +56,7 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
                 + "order by c.fecha_emision asc, c.numero asc";
         // System.out.println(query);
         c_compra.ver_compras(t_compras, query);
+        sumar_tabla();
     }
 
     private void desactivar_botones() {
@@ -60,6 +71,19 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
         btn_ver_detalles.setEnabled(true);
     }
 
+    private void sumar_tabla() {
+        double subtotal = 0;
+        double igv = 0;
+        double total = 0;
+        for (int i = 0; i < t_compras.getRowCount(); i++) {
+            subtotal += (Double.parseDouble(t_compras.getValueAt(i, 6).toString()));
+            igv += (Double.parseDouble(t_compras.getValueAt(i, 7).toString()));
+            total += (Double.parseDouble(t_compras.getValueAt(i, 8).toString()));
+        }
+        jTextField1.setText(c_varios.formato_totales(subtotal));
+        jTextField2.setText(c_varios.formato_totales(igv));
+        jTextField3.setText(c_varios.formato_totales(total));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -88,6 +112,13 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
         cbx_tipo_busqueda = new javax.swing.JComboBox<>();
         jComboBox3 = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
 
         setTitle("Ver Documentos de Compras");
 
@@ -202,6 +233,29 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Periodo:");
 
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/find.png"))); // NOI18N
+        jButton7.setText("Ver Periodo");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("total SubTotal: ");
+
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField1.setText("0.00");
+
+        jTextField2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField2.setText("0.00");
+
+        jLabel5.setText("total IGV: ");
+
+        jLabel6.setText("total General: ");
+
+        jTextField3.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField3.setText("0.00");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -217,14 +271,29 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
                         .addComponent(cbx_tipo_busqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_busqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton7))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 415, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -239,9 +308,21 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbx_tipo_busqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -317,6 +398,7 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
             }
 
             c_compra.ver_compras(t_compras, query);
+            sumar_tabla();
         }
     }//GEN-LAST:event_txt_busquedaKeyPressed
 
@@ -324,6 +406,21 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
         txt_busqueda.selectAll();
         txt_busqueda.requestFocus();
     }//GEN-LAST:event_cbx_tipo_busquedaItemStateChanged
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        periodo = jComboBox1.getSelectedItem().toString();
+        query = "SELECT c.id_compras, c.periodo, c.fecha_emision, ds.cod_sunat, ds.abreviatura "
+                + "AS doc_compra, c.serie, c.numero, en.documento AS doc_cliente, "
+                + "en.nombre AS nombre_cliente, m.abreviatura AS moneda, c.tc, c.tipo_compra, c.subtotal, c.igv, c.total "
+                + "FROM compras AS c "
+                + "INNER JOIN entidad AS en ON en.id_entidad = c.id_entidad AND en.id_usuario = c.id_usuario "
+                + "INNER JOIN documentos_sunat AS ds ON c.id_tido = ds.id_tido "
+                + "INNER JOIN moneda AS m ON m.id_moneda = c.id_moneda "
+                + "where c.periodo = '" + periodo + "' and c.id_empresa = '" + id_empresa + "' "
+                + "order by c.fecha_emision asc, c.numero asc";
+        c_compra.ver_compras(t_compras, query);
+        sumar_tabla();
+    }//GEN-LAST:event_jButton7ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -334,15 +431,22 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTable t_compras;
     private javax.swing.JTextField txt_busqueda;

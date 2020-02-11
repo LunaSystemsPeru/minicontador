@@ -14,6 +14,7 @@ import clases_varios.cl_PeticionPost;
 import clases_varios.cl_json_entidad;
 import java.awt.Desktop;
 import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -473,6 +474,7 @@ public class frm_menu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema minicontable -- Luna Systems Peru");
+        setIconImage(Toolkit.getDefaultToolkit().getImage("icono.jpg"));
 
         jToolBar1.setFloatable(false);
 

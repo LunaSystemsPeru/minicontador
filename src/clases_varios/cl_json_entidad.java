@@ -153,11 +153,18 @@ public class cl_json_entidad {
         JSONParser Jparser = new JSONParser();
         JSONObject jsonObject = (JSONObject) Jparser.parse(json);
         boolean estatus = (Boolean) jsonObject.get("success");
+        String source = (String) jsonObject.get("source");
         //https://examples.javacodegeeks.com/core-java/json/java-json-parser-example/
         JSONObject result = (JSONObject) jsonObject.get("result");
 
+        if (source.equals("essalud")) {
+        datos[0] = result.get("ApellidoPaterno").toString() + " " + result.get("ApellidoMaterno").toString() + " " + result.get("Nombres").toString();
+        datos[1] = "-";
+        }
+        if (source.equals("padron_jne")) {
         datos[0] = result.get("apellidos").toString() + " " + result.get("Nombres").toString();
         datos[1] = "-";
+        }
         return datos;
     }
 }
