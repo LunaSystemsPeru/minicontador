@@ -9,6 +9,7 @@ import clases.cl_compra;
 import clases.cl_varios;
 import forms.frm_reg_compra;
 import java.awt.Frame;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import minicontador.frm_menu;
@@ -230,6 +231,11 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
         });
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2018" }));
+        jComboBox3.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox3ItemStateChanged(evt);
+            }
+        });
 
         jLabel3.setText("Periodo:");
 
@@ -421,6 +427,14 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
         c_compra.ver_compras(t_compras, query);
         sumar_tabla();
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jComboBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox3ItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            o_combobox omanios = (o_combobox) jComboBox3.getSelectedItem();
+
+            manios.listar_periodo_compras(omanios.getId(), jComboBox1);
+        }
+    }//GEN-LAST:event_jComboBox3ItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

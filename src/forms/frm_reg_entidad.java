@@ -215,6 +215,7 @@ public class frm_reg_entidad extends javax.swing.JDialog {
         c_entidad.setId_usuario(id_usuario);
         if (!c_entidad.validar_documento()) {
             c_entidad.obtener_id();
+            c_entidad.setNombre(c_entidad.getNombre().replaceAll("[\\.$|,|;|']", ""));
             c_entidad.insertar();
         }
         if (origen.equals("frm_empresas")) {
