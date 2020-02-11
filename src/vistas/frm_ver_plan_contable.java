@@ -193,6 +193,7 @@ public class frm_ver_plan_contable extends javax.swing.JInternalFrame {
             c_cuentas.setNombre(jTextField2.getText().trim().toUpperCase());
             c_cuentas.insertar();
             c_cuentas.ver_cuentas(t_cuentas, query);
+             limpiar();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -202,7 +203,7 @@ public class frm_ver_plan_contable extends javax.swing.JInternalFrame {
         jTextField2.setEnabled(true);
         jTextField1.setEnabled(true);
         jTextField1.requestFocus();
-        limpiar();
+       
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void limpiar() {
