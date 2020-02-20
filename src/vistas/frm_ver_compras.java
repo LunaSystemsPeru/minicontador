@@ -55,7 +55,7 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
                 + "INNER JOIN moneda AS m ON m.id_moneda = c.id_moneda "
                 + "where c.periodo = '" + periodo + "' and c.id_empresa = '" + id_empresa + "' "
                 + "order by c.fecha_emision asc, c.numero asc";
-         System.out.println(query);
+         //System.out.println(query);
         c_compra.ver_compras(t_compras, query);
         sumar_tabla();
     }

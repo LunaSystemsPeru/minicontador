@@ -291,10 +291,10 @@ public class cl_compra {
                 fila[2] = rs.getString("doc_compra") + " / " + c_varios.ceros_izquieda_letras(4, rs.getString("serie")) + " - " + c_varios.ceros_izquieda_numero(7, rs.getInt("numero"));
                 fila[3] = rs.getString("doc_cliente") + " | " + rs.getString("nombre_cliente");;
                 fila[4] = rs.getString("moneda");
-                fila[5] = c_varios.formato_totales(total_venta);
-                fila[6] = c_varios.formato_totales(subtotal_soles);
-                fila[7] = c_varios.formato_totales(igv_soles);
-                fila[8] = c_varios.formato_totales(total_soles);
+                fila[5] = c_varios.formato_numero(total_venta);
+                fila[6] = c_varios.formato_numero(subtotal_soles);
+                fila[7] = c_varios.formato_numero(igv_soles);
+                fila[8] = c_varios.formato_numero(total_soles);
                 fila[9] = rs.getInt("periodo");
                 fila[10] = rs.getInt("id_compras");
 
