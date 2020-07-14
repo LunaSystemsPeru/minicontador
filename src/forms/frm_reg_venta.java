@@ -525,6 +525,7 @@ public class frm_reg_venta extends javax.swing.JDialog {
             if (txt_serie.getText().length() > 0) {
                 txt_numero.setEnabled(true);
                 txt_numero.requestFocus();
+                txt_numero.selectAll();
             }
         }
     }//GEN-LAST:event_txt_serieKeyPressed
@@ -805,9 +806,14 @@ public class frm_reg_venta extends javax.swing.JDialog {
             }
             //llenar_libro();
             JOptionPane.showMessageDialog(null, "DOCUMENTO AGREGADO CORRECTAMENTE \nESTE DOCUMENTO GENERO EL CODIGO: " + c_venta.getPeriodo() + c_venta.getId_venta());
+            
+            /*
             this.dispose();
             frm_ver_ventas formulario = new frm_ver_ventas();
             c_varios.llamar_ventana_ancha(formulario);
+            */
+            
+            txt_fecha.requestFocus();
         }
     }//GEN-LAST:event_btn_grabarActionPerformed
 

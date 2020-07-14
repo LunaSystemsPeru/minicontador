@@ -5,6 +5,8 @@
  */
 package clases;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
@@ -86,6 +88,43 @@ public class cl_nota_venta {
         c_conectar.cerrar(st);
 
         return registrado;
+    }
+    
+    public boolean eliminar() {
+        boolean registrado = false;
+
+        Statement st = c_conectar.conexion();
+        String query = "delete from notas_venta "
+                + "where id_ventas = '" + id_nota + "' and periodo = '" + periodo_nota + "' and id_empresa = '" + id_empresa_nota + "'";
+        int resultado = c_conectar.actualiza(st, query);
+        if (resultado > -1) {
+            registrado = true;
+        }
+        c_conectar.cerrar(st);
+
+        return registrado;
+    }
+    
+    public boolean obtener_datos() {
+        boolean existe = false;
+        try {
+            Statement st = c_conectar.conexion();
+            String query = "select * from notas_venta "
+                    + "where id_ventas = '" + id_nota + "' and periodo = '" + periodo_nota + "' and id_empresa = '" + id_empresa_nota + "' ";
+            System.out.println(query);
+            ResultSet rs = c_conectar.consulta(st, query);
+            if (rs.next()) {
+                existe = true;
+                this.id_venta = rs.getInt("id_ventas_ref");
+                this.periodo_venta = rs.getString("periodo_ref");
+                this.id_empresa_venta = rs.getInt("id_empresa_ref");
+            }
+            c_conectar.cerrar(rs);
+            c_conectar.cerrar(st);
+        } catch (SQLException ex) {
+            System.out.println(ex.getLocalizedMessage());
+        }
+        return existe;
     }
 
 }

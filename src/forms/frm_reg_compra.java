@@ -533,9 +533,12 @@ public class frm_reg_compra extends javax.swing.JDialog {
         c_compra.insertar();
         
         JOptionPane.showMessageDialog(null, "DOCUMENTO AGREGADO CORRECTAMENTE \nESTE DOCUMENTO HA GENERADO EL CODIGO: " + c_compra.getPeriodo() + c_compra.getId_compra());
-        this.dispose();
-        frm_ver_compras formulario = new frm_ver_compras();
-        c_varios.llamar_ventana_ancha(formulario);
+        //this.dispose();
+        //frm_ver_compras formulario = new frm_ver_compras();
+        //c_varios.llamar_ventana_ancha(formulario);
+        
+        txt_fec_emision.requestFocus();
+        jButton1.setEnabled(false);
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -552,6 +555,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txt_serie.setEnabled(true);
             txt_serie.requestFocus();
+            txt_serie.selectAll();
         }
     }//GEN-LAST:event_cbx_tidoKeyPressed
 
@@ -560,6 +564,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
             if (txt_serie.getText().length() > 0) {
                 txt_numero.setEnabled(true);
                 txt_numero.requestFocus();
+                txt_numero.selectAll();
             }
         }
     }//GEN-LAST:event_txt_serieKeyPressed
@@ -632,6 +637,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
                     jTextField2.setText("COMPRAS " + c_plan_contable.getNombre());
                     txt_total.setEnabled(true);
                     txt_total.requestFocus();
+                    txt_total.selectAll();
                 } else {
                     JOptionPane.showMessageDialog(this, "El numero ingresado no es valido");
                 }

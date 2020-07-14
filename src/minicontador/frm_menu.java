@@ -102,6 +102,7 @@ public class frm_menu extends javax.swing.JFrame {
             Timer timer = new Timer(35000, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     c_empresa.ver_meses(jTable1);
+                    System.out.println("sumando meses");
                 }
             });
             timer.start();

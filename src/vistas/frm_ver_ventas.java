@@ -5,8 +5,10 @@
  */
 package vistas;
 
+import clases.cl_nota_venta;
 import clases.cl_varios;
 import clases.cl_venta;
+import clases.libros_ventas;
 import forms.frm_reg_venta;
 import java.awt.Frame;
 import java.awt.event.ItemEvent;
@@ -29,6 +31,8 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
 
     cl_varios c_varios = new cl_varios();
     cl_venta c_venta = new cl_venta();
+    cl_nota_venta c_nota = new cl_nota_venta();
+    libros_ventas c_libro = new libros_ventas();
 
     m_anios manios = new m_anios();
 
@@ -414,14 +418,15 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        query = "select v.id_ventas, v.periodo, v.fecha_emision, ds.cod_sunat, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.cod_sunat as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
+        query = "select v.id_ventas, v.periodo, v.fecha_emision, v.id_tido, ds.cod_sunat, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.cod_sunat as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
                 + "from ventas as v "
                 + "inner join entidad as en on en.id_entidad = v.id_entidad and en.id_usuario = v.id_usuario "
                 + "inner join documentos_sunat as ds on v.id_tido = ds.id_tido "
                 + "inner join moneda as m on m.id_moneda = v.id_moneda "
                 + "where v.periodo = '" + periodo + "' and v.id_empresa = '" + id_empresa + "' "
                 + "order by v.fecha_emision asc, v.numero asc";
-        c_venta.generar_le(query, frm_menu.c_entidad.getDocumento(), periodo);
+        c_libro.setId_empresa(id_empresa);
+        c_libro.generar_le(query, frm_menu.c_entidad.getDocumento(), periodo);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void txt_buscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_buscarKeyPressed
@@ -462,6 +467,10 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         if (fila_seleccionada > -1) {
             int confirmado = JOptionPane.showConfirmDialog(null, "¿Esta Seguro de Eliminar el Documento de Venta?");
             if (JOptionPane.OK_OPTION == confirmado) {
+                c_nota.setId_nota(c_venta.getId_venta());
+                c_nota.setId_empresa_nota(c_venta.getId_empresa());
+                c_nota.setPeriodo_nota(c_venta.getPeriodo());
+                c_nota.eliminar();
                 c_venta.eliminar();
                 c_venta.ver_ventas(t_ventas, query);
                 sumar_tabla();

@@ -219,7 +219,7 @@ public class cl_venta {
 
         Statement st = c_conectar.conexion();
         String query = "delete from ventas "
-                + "where id_venta = '" + id_venta + "' and periodo = '" + periodo + "' and id_empresa = '" + id_empresa + "'";
+                + "where id_ventas = '" + id_venta + "' and periodo = '" + periodo + "' and id_empresa = '" + id_empresa + "'";
         int resultado = c_conectar.actualiza(st, query);
         if (resultado > -1) {
             registrado = true;
@@ -368,88 +368,5 @@ public class cl_venta {
         return total;
     }
 
-    public void generar_le(String query, String ruc, String speriodo) {
-        String nombre_libro = "LE" + ruc + speriodo + "00140100001" + "1" + "11.txt";
-
-        String sdirectorio = c_varios.obtenerDireccionCarpeta() + File.separator + "libros_electronicos" + File.separator + ruc + File.separator + speriodo;
-        File directorio = new File(sdirectorio);
-        if (!directorio.exists()) {
-            directorio.mkdirs();
-        }
-
-        FileWriter fichero = null;
-        PrintWriter pw = null;
-        try {
-            fichero = new FileWriter(directorio + File.separator + nombre_libro);
-            pw = new PrintWriter(fichero);
-
-            Statement st = c_conectar.conexion();
-            ResultSet rs = c_conectar.consulta(st, query);
-            while (rs.next()) {
-                String tipo_cliente = "1";
-                if (rs.getString("doc_cliente").length() == 11) {
-                    tipo_cliente = "6";
-                }
-
-                String sestado = "1";
-                if (rs.getInt("estado") == 2) {
-                    sestado = "2";
-                }
-
-                String linea = rs.getString("periodo") + "00"
-                        + "|" + rs.getString("periodo") + c_varios.ceros_izquieda_numero(3, rs.getInt("id_ventas"))
-                        + "|M" + rs.getString("id_ventas")
-                        + "|" + c_varios.formato_fecha_vista(rs.getString("fecha_emision"))
-                        + "|"
-                        + "|" + rs.getString("cod_sunat")
-                        + "|" + c_varios.ceros_izquieda_letras(4, rs.getString("serie"))
-                        + "|" + rs.getString("numero")
-                        + "|"
-                        + "|" + tipo_cliente
-                        + "|" + rs.getString("doc_cliente")
-                        + "|" + rs.getString("nombre_cliente")
-                        + "|0"
-                        + "|" + c_varios.formato_numero(rs.getDouble("subtotal"))
-                        + "|0"
-                        + "|" + c_varios.formato_numero(rs.getDouble("igv"))
-                        + "|0"
-                        + "|0"
-                        + "|0"
-                        + "|0"
-                        + "|0"
-                        + "|0"
-                        + "|0"
-                        + "|" + c_varios.formato_numero(rs.getDouble("total"))
-                        + "|" + rs.getString("moneda")
-                        + "|" + c_varios.formato_tc(rs.getDouble("tc"))
-                        + "|"
-                        + "|"
-                        + "|"
-                        + "|"
-                        + "|"
-                        + "|"
-                        + "|"
-                        + "|" + sestado
-                        + "|";
-                pw.println(linea);
-            }
-            c_conectar.cerrar(rs);
-            c_conectar.cerrar(st);
-
-            JOptionPane.showMessageDialog(null, "LIBRO ELECTRONICO GENERADO CORRECTAMENTE");
-        } catch (IOException | SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                // Nuevamente aprovechamos el finally para 
-                // asegurarnos que se cierra el fichero.
-                if (null != fichero) {
-                    fichero.close();
-                }
-            } catch (IOException e2) {
-                e2.printStackTrace();
-            }
-        }
-    }
-
+   
 }
