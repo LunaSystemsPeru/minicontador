@@ -294,6 +294,6 @@ public class frm_reg_entidad extends javax.swing.JDialog {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTextField txt_direccion;
     private javax.swing.JTextField txt_razon;
-    private javax.swing.JTextField txt_ruc;
+    public static javax.swing.JTextField txt_ruc;
     // End of variables declaration//GEN-END:variables
 }

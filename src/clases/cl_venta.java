@@ -234,11 +234,11 @@ public class cl_venta {
         try {
             Statement st = c_conectar.conexion();
             String query = "select id_ventas, periodo from ventas "
-                    + "where id_tido = '" + this.id_tido + "' and serie = '" + this.serie + "' and numero = '" + this.numero + "'";
+                    + "where id_tido = '" + this.id_tido + "' and serie = '" + this.serie + "' and numero = '" + this.numero + "' and id_empresa = '" + id_empresa + "'";
             ResultSet rs = c_conectar.consulta(st, query);
             if (rs.next()) {
                 existe = true;
-                this.id_venta = rs.getInt("id_venta");
+                this.id_venta = rs.getInt("id_ventas");
                 this.periodo = rs.getString("periodo");
             }
             c_conectar.cerrar(rs);

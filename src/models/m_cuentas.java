@@ -53,6 +53,21 @@ public class m_cuentas {
                 + "order by id_cuenta_contable asc";
         listar_combobox(query, combobox);
     }
+    
+    public void cbx_cuentas_orden(JComboBox combobox, String inicial) {
+        String query = "select id_cuenta_contable, nombre from cuentas_contables "
+                + "where id_cuenta_contable like '"+inicial+"%' and LENGTH(id_cuenta_contable) = 2 "
+                + "order by id_cuenta_contable asc";
+        listar_combobox(query, combobox);
+    }
+    
+    public void cbx_cuentas_final(JComboBox combobox, String inicial, int tope) {
+        String query = "select id_cuenta_contable, nombre from cuentas_contables "
+                + "where id_cuenta_contable like '"+inicial+"%' and (LENGTH(id_cuenta_contable) > 2 and LENGTH(id_cuenta_contable) <= '"+tope+"') "
+                + "order by id_cuenta_contable asc";
+        System.out.println(query);
+        listar_combobox(query, combobox);
+    }
 
     public void listar_libros(JComboBox combobox) {
 

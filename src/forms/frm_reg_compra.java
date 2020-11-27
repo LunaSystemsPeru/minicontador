@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import minicontador.frm_menu;
+import models.m_cuentas;
 import models.m_documentos_sunat;
 import models.m_moneda;
 import objects.o_combobox;
@@ -31,21 +32,22 @@ import vistas.frm_ver_ventas;
  * @author CALIDAD
  */
 public class frm_reg_compra extends javax.swing.JDialog {
-    
+
     cl_varios c_varios = new cl_varios();
     cl_conectar c_conectar = new cl_conectar();
-    
+
     cl_entidad c_entidad = new cl_entidad();
     cl_compra c_compra = new cl_compra();
-    
+
     m_documentos_sunat m_documentos = new m_documentos_sunat();
     m_moneda m_moneda = new m_moneda();
-    
+    m_cuentas m_cuentas = new m_cuentas();
+
     int id_usuario = frm_menu.c_usuario.getId_usuario();
     int id_empresa = frm_menu.c_empresa.getId_empresa();
-    
+
     cl_plan_contable c_plan_contable = new cl_plan_contable();
-    
+
     TextAutoCompleter tac_entidades = null;
 
     /**
@@ -54,21 +56,23 @@ public class frm_reg_compra extends javax.swing.JDialog {
     public frm_reg_compra(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         txt_fec_emision.setText(c_varios.formato_fecha_vista(c_varios.getFechaActual()));
-        
+
         m_documentos.listar_combobox(cbx_tido);
-        
+
         m_moneda.listar_monedas(cbx_moneda);
+
+        m_cuentas.cbx_cuentas_orden(jComboBox1, "6");
     }
-    
+
     private void cargar_productos() {
         try {
             if (tac_entidades != null) {
                 tac_entidades.removeAllItems();
             }
             tac_entidades = new TextAutoCompleter(txt_proveedor);
-            
+
             tac_entidades.setMode(0);
             tac_entidades.setCaseSensitive(false);
             Statement st = c_conectar.conexion();
@@ -122,12 +126,20 @@ public class frm_reg_compra extends javax.swing.JDialog {
         btn_add_proveedor = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel13 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
         jButton3 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jTextField2 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agregar Documento de Compra");
@@ -292,16 +304,44 @@ public class frm_reg_compra extends javax.swing.JDialog {
             }
         });
 
-        jLabel12.setText("Tipo Compra:");
+        jLabel12.setText("Titulo Cta.");
 
         jTextField1.setEnabled(false);
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextField1KeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField1KeyTyped(evt);
+            }
         });
 
-        jTextField2.setEditable(false);
+        jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField3.setEnabled(false);
+        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField3KeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField3KeyTyped(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CUENTAS DE ORDEN" }));
+        jComboBox1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jComboBox1KeyPressed(evt);
+            }
+        });
+
+        jLabel13.setText("Cta. Cble.");
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CUENTA FINAL" }));
+        jComboBox2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jComboBox2KeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -315,15 +355,15 @@ public class frm_reg_compra extends javax.swing.JDialog {
                     .addComponent(jLabel3)
                     .addComponent(jLabel5)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel12))
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel13))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txt_fec_vcto, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_fec_emision, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 233, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -336,13 +376,21 @@ public class frm_reg_compra extends javax.swing.JDialog {
                             .addComponent(cbx_tido, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbx_moneda, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_tc, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbx_moneda, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txt_tc, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addComponent(jLabel8)
@@ -395,20 +443,24 @@ public class frm_reg_compra extends javax.swing.JDialog {
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbx_moneda, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_subtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_subtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_tc, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_tc, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_igv, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_igv, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_total, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel13)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -448,13 +500,56 @@ public class frm_reg_compra extends javax.swing.JDialog {
         });
         jToolBar1.add(jButton3);
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel14.setText("Tipo Afectacion");
+
+        jLabel15.setText("Monto");
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PERCEPCION", "RETENCION" }));
+        jComboBox3.setEnabled(false);
+
+        jTextField2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField2.setEnabled(false);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jComboBox3, 0, 146, Short.MAX_VALUE)
+                    .addComponent(jTextField2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -463,7 +558,9 @@ public class frm_reg_compra extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -485,7 +582,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
             if (txt_proveedor.getText().length() == 11) {
                 //validar si existe
                 String ruc = txt_proveedor.getText().trim();
-                
+
                 c_entidad.setDocumento(ruc);
                 c_entidad.setId_usuario(id_usuario);
                 boolean existe = c_entidad.validar_documento();
@@ -497,6 +594,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
                 } else {
                     Frame f = JOptionPane.getRootFrame();
                     frm_reg_entidad dialog = new frm_reg_entidad(f, true);
+                    frm_reg_entidad.txt_ruc.setText(ruc);
                     dialog.setLocationRelativeTo(null);
                     dialog.setVisible(true);
                 }
@@ -527,16 +625,16 @@ public class frm_reg_compra extends javax.swing.JDialog {
         c_compra.setSubtotal(Double.parseDouble(txt_subtotal.getText()));
         c_compra.setTc(Double.parseDouble(txt_tc.getText()));
         c_compra.setTotal(Double.parseDouble(txt_total.getText()));
-        c_compra.setTipo_compra(c_plan_contable.getId_cuenta());
+        c_compra.setTipo_compra(jTextField1.getText());
         c_compra.setId_usuario(id_usuario);
         c_compra.obtener_id();
         c_compra.insertar();
-        
+
         JOptionPane.showMessageDialog(null, "DOCUMENTO AGREGADO CORRECTAMENTE \nESTE DOCUMENTO HA GENERADO EL CODIGO: " + c_compra.getPeriodo() + c_compra.getId_compra());
         //this.dispose();
         //frm_ver_compras formulario = new frm_ver_compras();
         //c_varios.llamar_ventana_ancha(formulario);
-        
+
         txt_fec_emision.requestFocus();
         jButton1.setEnabled(false);
 
@@ -585,7 +683,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
                 String periodo = txt_periodo.getText();
                 int periodo_ingresado = Integer.parseInt(periodo);
                 int periodo_fecha = Integer.parseInt(c_varios.formato_periodo(fecha));
-                
+
                 if (periodo_fecha <= periodo_ingresado) {
                     txt_fec_vcto.setText(txt_fec_emision.getText());
                     cbx_tido.setEnabled(true);
@@ -616,35 +714,24 @@ public class frm_reg_compra extends javax.swing.JDialog {
             if (id_moneda == 1) {
                 txt_tc.setText("1.000");
                 txt_tc.setEnabled(false);
-                jTextField1.setEnabled(true);
-                jTextField1.requestFocus();
+                jTextField3.setEnabled(true);
+                jTextField3.requestFocus();
             } else {
                 txt_tc.setText("");
                 txt_tc.setEnabled(true);
                 txt_tc.requestFocus();
             }
-            
+
         }
     }//GEN-LAST:event_cbx_monedaKeyPressed
 
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            String num = jTextField1.getText();
-            System.out.println(num.length() + "<>" + num.substring(0, 2));
-            if (num.length() > 2 && (num.substring(0, 2).equals("60") || num.substring(0, 2).equals("63") || num.substring(0, 2).equals("65") ) ) {
-                c_plan_contable.setId_cuenta(num);
-                if (c_plan_contable.obtener_datos()) {
-                    jTextField2.setText("COMPRAS " + c_plan_contable.getNombre());
-                    txt_total.setEnabled(true);
-                    txt_total.requestFocus();
-                    txt_total.selectAll();
-                } else {
-                    JOptionPane.showMessageDialog(this, "El numero ingresado no es valido");
-                }
-                
-            } else {
-                JOptionPane.showMessageDialog(this, "Debe ingresar un numero que pertenezca a compras 60, 63, 65");
+            String inicial = jTextField1.getText();
+            if (inicial.length() > 1) {
+                m_cuentas.cbx_cuentas_final(jComboBox2, inicial, inicial.length() + 1);
             }
+            jComboBox2.requestFocus();
         }
     }//GEN-LAST:event_jTextField1KeyPressed
 
@@ -664,7 +751,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
                 txt_total.selectAll();
                 txt_total.requestFocus();
             }
-            
+
         }
     }//GEN-LAST:event_txt_totalKeyPressed
 
@@ -675,8 +762,8 @@ public class frm_reg_compra extends javax.swing.JDialog {
     private void txt_tcKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_tcKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (txt_tc.getText().length() > 0) {
-                jTextField1.setEnabled(true);
-                jTextField1.requestFocus();
+                jTextField3.setEnabled(true);
+                jTextField3.requestFocus();
             }
         }
     }//GEN-LAST:event_txt_tcKeyPressed
@@ -694,6 +781,52 @@ public class frm_reg_compra extends javax.swing.JDialog {
     private void txt_serieKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_serieKeyTyped
         c_varios.limitar_caracteres(evt, txt_serie, 12);
     }//GEN-LAST:event_txt_serieKeyTyped
+
+    private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String inicial = jTextField3.getText();
+            if (inicial.length() < 3) {
+                m_cuentas.cbx_cuentas_orden(jComboBox1, inicial);
+            }
+            jComboBox1.requestFocus();
+        }
+    }//GEN-LAST:event_jTextField3KeyPressed
+
+    private void jComboBox1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox1KeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            o_combobox ocuenta = (o_combobox) jComboBox1.getSelectedItem();
+            jTextField1.setText(ocuenta.getId() + "");
+            jTextField1.setEnabled(true);
+            jTextField1.requestFocus();
+        }
+    }//GEN-LAST:event_jComboBox1KeyPressed
+
+    private void jComboBox2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox2KeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            int contaritems = jComboBox2.getItemCount();
+            if (contaritems > 1) {
+                o_combobox ocuenta = (o_combobox) jComboBox2.getSelectedItem();
+                jTextField1.setText(ocuenta.getId() + "");
+                jTextField1.setEnabled(true);
+                jTextField1.requestFocus();
+            } else {
+                jTextField1.setEnabled(true);
+                txt_total.setEnabled(true);
+                txt_total.requestFocus();
+            }
+
+        }
+    }//GEN-LAST:event_jComboBox2KeyPressed
+
+    private void jTextField3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyTyped
+        c_varios.solo_numeros(evt);
+        c_varios.limitar_caracteres(evt, jTextField3, 7);
+    }//GEN-LAST:event_jTextField3KeyTyped
+
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+        c_varios.solo_numeros(evt);
+        c_varios.limitar_caracteres(evt, jTextField1, 7);
+    }//GEN-LAST:event_jTextField1KeyTyped
 
     /**
      * @param args the command line arguments
@@ -744,10 +877,16 @@ public class frm_reg_compra extends javax.swing.JDialog {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -757,9 +896,11 @@ public class frm_reg_compra extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JFormattedTextField txt_fec_emision;
     private javax.swing.JFormattedTextField txt_fec_vcto;
