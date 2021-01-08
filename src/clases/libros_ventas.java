@@ -119,6 +119,7 @@ public class libros_ventas {
                         + "|0"
                         + "|0"
                         + "|0"
+                        + "|0"
                         + "|" + c_varios.formato_numero(rs.getDouble("total"))
                         + "|" + rs.getString("moneda")
                         + "|" + c_varios.formato_tc(rs.getDouble("tc"))
