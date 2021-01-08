@@ -126,14 +126,28 @@ public class cl_usuario {
 
         return registrado;
     }
-    
+
+    public boolean actualizarLogin() {
+        boolean registrado = false;
+
+        Statement st = c_conectar.conexion();
+        String query = "update usuarios set ultimo_ingreso = current_time() where id_usuario = '" + this.id_usuario + "' ";
+        int resultado = c_conectar.actualiza(st, query);
+        if (resultado > -1) {
+            registrado = true;
+        }
+        c_conectar.cerrar(st);
+
+        return registrado;
+    }
+
     public boolean validar_email() {
         boolean existe = false;
         try {
             Statement st = c_conectar.conexion();
             String query = "select * "
                     + "from usuarios "
-                    + "where email = '" + this.email + "' or celular = '"+this.celular+"'";
+                    + "where email = '" + this.email + "' or celular = '" + this.celular + "'";
             ResultSet rs = c_conectar.consulta(st, query);
 
             if (rs.next()) {
@@ -174,7 +188,7 @@ public class cl_usuario {
         }
         return existe;
     }
-    
+
     public void autoconectar() {
         boolean existe = false;
         try {
@@ -188,7 +202,7 @@ public class cl_usuario {
             c_conectar.cerrar(st);
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
-            JOptionPane.showMessageDialog(null, "se perdio la conexion \n"+ex.getLocalizedMessage());
+            JOptionPane.showMessageDialog(null, "se perdio la conexion \n" + ex.getLocalizedMessage());
             c_conectar.conectar();
         }
         //return existe;

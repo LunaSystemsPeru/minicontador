@@ -307,8 +307,12 @@ public class cl_venta {
             mostrar.addColumn("Id Venta");
             //Creando las filas para el JTable
             while (rs.next()) {
-                total = total + rs.getDouble("total");
+                int iidtido = rs.getInt("id_tido");
+
                 double total_venta = rs.getDouble("total");
+                if (iidtido == 4 || iidtido == 5) {
+                 //   total_venta = total_venta * -1;
+                }
                 double tipo_cambio = rs.getDouble("tc");
                 double total_soles = total_venta * tipo_cambio;
                 double subtotal_soles = total_soles / 1.18;
@@ -318,6 +322,7 @@ public class cl_venta {
                     subtotal_soles = total_soles;
                     igv_soles = 0;
                 }
+                total = total + total_venta;
 
                 int iestado = rs.getInt("estado");
                 String valor_cliente = "";
@@ -368,5 +373,4 @@ public class cl_venta {
         return total;
     }
 
-   
 }

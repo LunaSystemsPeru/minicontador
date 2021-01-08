@@ -924,6 +924,8 @@ public class frm_menu extends javax.swing.JFrame {
     }//GEN-LAST:event_cbx_empresasKeyPressed
 
     private void btn_logearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logearActionPerformed
+        c_usuario.actualizarLogin();
+
         o_combobox c_cbx_empresas = (o_combobox) cbx_empresas.getSelectedItem();
         int id_empresa = c_cbx_empresas.getId();
         c_empresa.setId_empresa(id_empresa);

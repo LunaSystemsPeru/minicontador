@@ -842,6 +842,11 @@ public class frm_reg_venta extends javax.swing.JDialog {
             c_venta.setSubtotal(Double.parseDouble(txt_subtotal.getText()));
             c_venta.setIgv(Double.parseDouble(txt_igv.getText()));
             c_venta.setTotal(Double.parseDouble(txt_total.getText()));
+            /*if (id_tido == 4 || id_tido == 5) {
+                c_venta.setSubtotal(c_venta.getSubtotal() * -1);
+                c_venta.setIgv(c_venta.getIgv() * -1);
+                c_venta.setTotal(c_venta.getTotal() * -1);
+            }*/
             c_venta.setEstado(1);
             c_venta.obtener_id();
         }

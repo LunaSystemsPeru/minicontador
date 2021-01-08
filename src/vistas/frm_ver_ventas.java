@@ -55,7 +55,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         manios.listar_periodo_ventas(omanios.getId(), jComboBox1);
 
         periodo = c_varios.obtener_periodo();
-        query = "select v.id_ventas, v.periodo, v.fecha_emision, ds.cod_sunat, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.abreviatura as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
+        query = "select v.id_ventas, v.periodo, v.fecha_emision, ds.cod_sunat, ds.id_tido, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.abreviatura as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
                 + "from ventas as v "
                 + "inner join entidad as en on en.id_entidad = v.id_entidad and en.id_usuario = v.id_usuario "
                 + "inner join documentos_sunat as ds on v.id_tido = ds.id_tido "
@@ -436,7 +436,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
 
             if (tipo_busqueda == 2) {
                 periodo = busqueda;
-                query = "select v.id_ventas, v.periodo, v.fecha_emision, ds.cod_sunat, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.abreviatura as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
+                query = "select v.id_ventas, v.periodo, v.fecha_emision, ds.cod_sunat, ds.id_tido, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.abreviatura as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
                         + "from ventas as v "
                         + "inner join entidad as en on en.id_entidad = v.id_entidad and en.id_usuario = v.id_usuario "
                         + "inner join documentos_sunat as ds on v.id_tido = ds.id_tido "
@@ -523,13 +523,14 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         periodo = jComboBox1.getSelectedItem().toString();
-        query = "select v.id_ventas, v.periodo, v.fecha_emision, ds.cod_sunat, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.abreviatura as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
+        query = "select v.id_ventas, v.periodo, v.fecha_emision, ds.cod_sunat, ds.id_tido, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.abreviatura as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
                 + "from ventas as v "
                 + "inner join entidad as en on en.id_entidad = v.id_entidad and en.id_usuario = v.id_usuario "
                 + "inner join documentos_sunat as ds on v.id_tido = ds.id_tido "
                 + "inner join moneda as m on m.id_moneda = v.id_moneda "
                 + "where v.periodo = '" + periodo + "' and v.id_empresa = '" + id_empresa + "' "
                 + "order by v.fecha_emision asc, v.numero asc";
+        System.out.println(query);
         c_venta.ver_ventas(t_ventas, query);
         sumar_tabla();
     }//GEN-LAST:event_jButton7ActionPerformed

@@ -439,14 +439,15 @@ public class frm_reg_compra extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txt_razon_social, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbx_moneda, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_subtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txt_tc, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txt_tc, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbx_moneda, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_subtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -618,13 +619,18 @@ public class frm_reg_compra extends javax.swing.JDialog {
         c_compra.setId_moneda(((o_combobox) cbx_moneda.getSelectedItem()).getId());
         c_compra.setId_proveedor(c_entidad.getId_entidad());
         c_compra.setId_tido(((o_combobox) cbx_tido.getSelectedItem()).getId());
-        c_compra.setIgv(Double.parseDouble(txt_igv.getText()));
         c_compra.setNumero(Integer.parseInt(txt_numero.getText()));
         c_compra.setPeriodo(Integer.parseInt(txt_periodo.getText()));
         c_compra.setSerie(txt_serie.getText().toUpperCase());
         c_compra.setSubtotal(Double.parseDouble(txt_subtotal.getText()));
-        c_compra.setTc(Double.parseDouble(txt_tc.getText()));
+        c_compra.setIgv(Double.parseDouble(txt_igv.getText()));
         c_compra.setTotal(Double.parseDouble(txt_total.getText()));
+        if (c_compra.getId_tido() == 4 || c_compra.getId_tido() == 5) {
+            c_compra.setIgv(c_compra.getIgv() * -1);
+            c_compra.setSubtotal(c_compra.getSubtotal() * -1);
+            c_compra.setTotal(c_compra.getTotal() * -1);
+        }
+        c_compra.setTc(Double.parseDouble(txt_tc.getText()));
         c_compra.setTipo_compra(jTextField1.getText());
         c_compra.setId_usuario(id_usuario);
         c_compra.obtener_id();
