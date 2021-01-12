@@ -40,7 +40,7 @@ public class libros_compras {
     }
 
     public void generar_le(String query, String ruc, String speriodo) {
-       // System.out.println(query);
+        // System.out.println(query);
         String nombre_libro = "LE" + ruc + speriodo + "00080100001" + "1" + "11.txt";
 
         String sdirectorio = c_varios.obtenerDireccionCarpeta() + File.separator + "libros_electronicos" + File.separator + ruc + File.separator + speriodo;
@@ -110,22 +110,22 @@ public class libros_compras {
                         + "|" + rs.getString("nombre_cliente")
                         + "|" + c_varios.formato_numero(rs.getDouble("subtotal"))
                         + "|" + c_varios.formato_numero(rs.getDouble("igv"))
-                        + "|0.0"
-                        + "|0.0"
-                        + "|0.0"
-                        + "|0.0"
-                        + "|0.0"
-                        + "|0.0"
-                        + "|0.0"
-                        + "|0.0"
+                        + "|0.00"
+                        + "|0.00"
+                        + "|0.00"
+                        + "|0.00"
+                        + "|0.00"
+                        + "|0.00"
+                        + "|0.00"
+                        + "|0.00"
                         + "|" + c_varios.formato_numero(rs.getDouble("total"))
                         + "|" + rs.getString("moneda")
                         + "|" + c_varios.formato_tc(rs.getDouble("tc"))
                         + "|" + fecha_ref
                         + "|" + tipo_doc
                         + "|" + serie_ref
-                        + "|" + nro_ref
                         + "|"
+                        + "|" + nro_ref
                         + "|"
                         + "|"
                         + "|"

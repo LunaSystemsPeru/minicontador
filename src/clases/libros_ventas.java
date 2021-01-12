@@ -112,14 +112,14 @@ public class libros_ventas {
                         + "|" + c_varios.formato_numero(rs.getDouble("subtotal"))
                         + "|0"
                         + "|" + c_varios.formato_numero(rs.getDouble("igv"))
-                        + "|0"
-                        + "|0"
-                        + "|0"
-                        + "|0"
-                        + "|0"
-                        + "|0"
-                        + "|0"
-                        + "|0"
+                        + "|0.00"
+                        + "|0.00"
+                        + "|0.00"
+                        + "|0.00"
+                        + "|0.00"
+                        + "|0.00"
+                        + "|0.00"
+                        + "|0.00"
                         + "|" + c_varios.formato_numero(rs.getDouble("total"))
                         + "|" + rs.getString("moneda")
                         + "|" + c_varios.formato_tc(rs.getDouble("tc"))
