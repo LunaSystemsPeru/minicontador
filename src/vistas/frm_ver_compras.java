@@ -352,7 +352,7 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         String ruc = frm_menu.c_entidad.getDocumento();
         query = "SELECT c.id_compras, c.periodo, c.fecha_emision, ds.cod_sunat, ds.abreviatura "
-                + "AS doc_compra, c.serie, c.numero, en.documento AS doc_cliente, "
+                + "AS doc_compra, c.serie, c.numero, en.documento AS doc_cliente, c.id_tido, "
                 + "en.nombre AS nombre_cliente, m.cod_sunat AS moneda, c.tc, c.tipo_compra, c.subtotal, c.igv, c.total "
                 + "FROM compras AS c "
                 + "INNER JOIN entidad AS en ON en.id_entidad = c.id_entidad AND en.id_usuario = c.id_usuario "

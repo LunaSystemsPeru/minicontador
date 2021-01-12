@@ -112,7 +112,7 @@ public class cl_nota_compra {
             Statement st = c_conectar.conexion();
             String query = "select * from notas_compras "
                     + "where id_compras = '" + idnota + "' and periodo = '" + periodo_nota + "' and id_empresa = '" + this.empresa_nota + "' ";
-            System.out.println(query);
+            //System.out.println(query);
             ResultSet rs = c_conectar.consulta(st, query);
             if (rs.next()) {
                 existe = true;
