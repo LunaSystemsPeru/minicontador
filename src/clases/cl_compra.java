@@ -332,130 +332,34 @@ public class cl_compra {
         return total;
     }
 
-    public void generar_le(String query, String ruc, String speriodo) {
-        System.out.println(query);
-        String nombre_libro = "LE" + ruc + speriodo + "00080100001" + "1" + "11.txt";
-
-        String sdirectorio = c_varios.obtenerDireccionCarpeta() + File.separator + "libros_electronicos" + File.separator + ruc + File.separator + speriodo;
-        File directorio = new File(sdirectorio);
-        if (!directorio.exists()) {
-            directorio.mkdirs();
-        }
-
-        FileWriter fichero = null;
-        PrintWriter pw = null;
+    public boolean obtener_datos() {
+        boolean existe = false;
         try {
-            fichero = new FileWriter(directorio + File.separator + nombre_libro);
-            pw = new PrintWriter(fichero);
-
             Statement st = c_conectar.conexion();
+            String query = "select * from compras "
+                    + "where periodo = '" + this.periodo + "' and id_compras = '" + this.id_compra + "' and id_empresa = '" + this.id_empresa + "'";
             ResultSet rs = c_conectar.consulta(st, query);
-            while (rs.next()) {
-                String tipo_cliente = "1";
-                if (rs.getString("doc_cliente").length() == 11) {
-                    tipo_cliente = "6";
-                }
+            if (rs.next()) {
+                existe = true;
+                this.fecha_emision = rs.getString("fecha_emision");
+                this.fecha_vcto = rs.getString("fecha_vcto");
+                this.id_tido = rs.getInt("id_tido");
+                this.serie = rs.getString("serie");
+                this.numero = rs.getInt("numero");
+                this.id_proveedor = rs.getInt("id_entidad");
+                this.id_moneda = rs.getInt("id_moneda");
+                this.tc = rs.getDouble("tc");
+                this.subtotal = rs.getDouble("subtotal");
+                this.igv = rs.getDouble("igv");
+                this.total = rs.getDouble("total");
 
-                String sestado = "1";
-                if (!c_varios.formato_periodo(rs.getString("fecha_emision")).equals(speriodo)) {
-                    System.out.println("periodo fecha" + c_varios.formato_periodo(rs.getString("fecha_emision")));
-                    System.out.println("\nperiodo libro" + speriodo);
-                    sestado = "6";
-                }
-
-                String linea = rs.getString("periodo") + "00"
-                        + "|" + rs.getString("periodo") + c_varios.ceros_izquieda_numero(3, rs.getInt("id_compras"))
-                        + "|M" + rs.getString("id_compras")
-                        + "|" + c_varios.formato_fecha_vista(rs.getString("fecha_emision"))
-                        + "|" + c_varios.formato_fecha_vista(rs.getString("fecha_emision"))
-                        + "|" + rs.getString("cod_sunat")
-                        + "|" + c_varios.ceros_izquieda_letras(4, rs.getString("serie"))
-                        + "|"
-                        + "|" + rs.getString("numero")
-                        + "|"
-                        + "|" + tipo_cliente
-                        + "|" + rs.getString("doc_cliente")
-                        + "|" + rs.getString("nombre_cliente")
-                        + "|" + c_varios.formato_numero(rs.getDouble("subtotal"))
-                        + "|" + c_varios.formato_numero(rs.getDouble("igv"))
-                        + "|0"
-                        + "|0"
-                        + "|0"
-                        + "|0"
-                        + "|0"
-                        + "|0"
-                        + "|0"
-                        + "|0"
-                        + "|" + c_varios.formato_numero(rs.getDouble("total"))
-                        + "|" + rs.getString("moneda")
-                        + "|" + c_varios.formato_tc(rs.getDouble("tc"))
-                        + "|"
-                        + "|"
-                        + "|"
-                        + "|"
-                        + "|"
-                        + "|"
-                        + "|"
-                        + "|"
-                        + "|"
-                        + "|"
-                        + "|"
-                        + "|"
-                        + "|"
-                        + "|"
-                        + "|"
-                        + "|" + sestado
-                        + "|";
-                pw.println(linea);
             }
             c_conectar.cerrar(rs);
             c_conectar.cerrar(st);
-
-            JOptionPane.showMessageDialog(null, "LIBRO ELECTRONICO GENERADO CORRECTAMENTE");
-        } catch (IOException | SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                // Nuevamente aprovechamos el finally para 
-                // asegurarnos que se cierra el fichero.
-                if (null != fichero) {
-                    fichero.close();
-                }
-            } catch (IOException e2) {
-                e2.printStackTrace();
-            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getLocalizedMessage());
         }
+        return existe;
     }
-
-    public void generar_le_domiciliado(String query, String ruc, String speriodo) {
-        String nombre_libro = "LE" + ruc + speriodo + "00080200001" + "0" + "11.txt";
-
-        String sdirectorio = c_varios.obtenerDireccionCarpeta() + File.separator + "libros_electronicos" + File.separator + ruc + File.separator + speriodo;
-        File directorio = new File(sdirectorio);
-        if (!directorio.exists()) {
-            directorio.mkdirs();
-        }
-
-        FileWriter fichero = null;
-        PrintWriter pw = null;
-        try {
-            fichero = new FileWriter(directorio + File.separator + nombre_libro);
-            pw = new PrintWriter(fichero);
-
-            //pw.println("");
-            JOptionPane.showMessageDialog(null, "LIBRO ELECTRONICO GENERADO CORRECTAMENTE");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                // Nuevamente aprovechamos el finally para 
-                // asegurarnos que se cierra el fichero.
-                if (null != fichero) {
-                    fichero.close();
-                }
-            } catch (IOException e2) {
-                e2.printStackTrace();
-            }
-        }
-    }
+   
 }

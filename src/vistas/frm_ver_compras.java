@@ -7,6 +7,7 @@ package vistas;
 
 import clases.cl_compra;
 import clases.cl_varios;
+import clases.libros_compras;
 import forms.frm_reg_compra;
 import java.awt.Frame;
 import java.awt.event.ItemEvent;
@@ -24,6 +25,7 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
 
     cl_compra c_compra = new cl_compra();
     cl_varios c_varios = new cl_varios();
+    libros_compras c_libro = new libros_compras();
     
     m_anios manios = new m_anios();
 
@@ -358,8 +360,9 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
                 + "INNER JOIN moneda AS m ON m.id_moneda = c.id_moneda "
                 + "where c.periodo = '" + periodo + "' and c.id_empresa = '" + id_empresa + "' "
                 + "order by c.fecha_emision asc, c.numero asc";
-        c_compra.generar_le_domiciliado(query, ruc, periodo);
-        c_compra.generar_le(query, ruc, periodo);
+        c_libro.setId_empresa(id_empresa);
+        c_libro.generar_le_domiciliado(query, ruc, periodo);
+        c_libro.generar_le(query, ruc, periodo);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
