@@ -41,6 +41,7 @@ public class frm_reg_compra extends javax.swing.JDialog {
 
     cl_entidad c_entidad = new cl_entidad();
     cl_compra c_compra = new cl_compra();
+    cl_compra c_validarcompra = new cl_compra();
     cl_compra c_referencia = new cl_compra();
     cl_nota_compra c_nota = new cl_nota_compra();
 
@@ -703,16 +704,26 @@ public class frm_reg_compra extends javax.swing.JDialog {
 
                     o_combobox co_tido = (o_combobox) cbx_tido.getSelectedItem();
                     int id_tido = co_tido.getId();
-                    if (id_tido == 4 || id_tido == 5) {
-                        btn_buscar_factura.setEnabled(true);
-                        //llamar funcion ver comprobantes
-                        verDocumentos();
-                        txt_buscar.requestFocus();
-                    } else {
-                        cbx_moneda.setEnabled(true);
-                        cbx_moneda.requestFocus();
-                    }
+                    c_validarcompra.setId_empresa(id_empresa);
+                    c_validarcompra.setId_proveedor(c_entidad.getId_entidad());
+                    c_validarcompra.setId_tido(id_tido);
+                    c_validarcompra.setSerie(txt_serie.getText().toUpperCase());
+                    c_validarcompra.setNumero(Integer.parseInt(txt_numero.getText()));
 
+                    if (c_validarcompra.validarDocumento()) {
+                        JOptionPane.showMessageDialog(null, "ESTE DOCUMENTO YA FUE REGISTRADO EN EL PERIODO " + c_validarcompra.getPeriodo() + ", CON REGISTRO NRO" + c_validarcompra.getId_compra());
+                    } else {
+
+                        if (id_tido == 4 || id_tido == 5) {
+                            btn_buscar_factura.setEnabled(true);
+                            //llamar funcion ver comprobantes
+                            verDocumentos();
+                            txt_buscar.requestFocus();
+                        } else {
+                            cbx_moneda.setEnabled(true);
+                            cbx_moneda.requestFocus();
+                        }
+                    }
                 } else {
                     Frame f = JOptionPane.getRootFrame();
                     frm_reg_entidad dialog = new frm_reg_entidad(f, true);

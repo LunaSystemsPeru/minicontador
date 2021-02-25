@@ -361,5 +361,38 @@ public class cl_compra {
         }
         return existe;
     }
-   
+
+    public boolean validarDocumento() {
+        boolean existe = false;
+        try {
+            Statement st = c_conectar.conexion();
+            String query = "select * from compras "
+                    + "where id_entidad = '" + this.id_proveedor + "' and id_tido= '" + this.id_tido + "' "
+                    + "and serie = '" + this.serie + "' and numero = '" + this.numero + "' and id_empresa = '" + this.id_empresa + "'";
+            ResultSet rs = c_conectar.consulta(st, query);
+            if (rs.next()) {
+                existe = true;
+                this.id_compra = rs.getInt("id_compras");
+                this.fecha_emision = rs.getString("fecha_emision");
+                this.fecha_vcto = rs.getString("fecha_vcto");
+                this.id_tido = rs.getInt("id_tido");
+                this.serie = rs.getString("serie");
+                this.numero = rs.getInt("numero");
+                this.id_proveedor = rs.getInt("id_entidad");
+                this.id_moneda = rs.getInt("id_moneda");
+                this.tc = rs.getDouble("tc");
+                this.subtotal = rs.getDouble("subtotal");
+                this.igv = rs.getDouble("igv");
+                this.total = rs.getDouble("total");
+                this.periodo = rs.getInt("periodo");
+
+            }
+            c_conectar.cerrar(rs);
+            c_conectar.cerrar(st);
+        } catch (SQLException ex) {
+            System.out.println(ex.getLocalizedMessage());
+        }
+        return existe;
+    }
+
 }
