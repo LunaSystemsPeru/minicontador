@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import javax.swing.JOptionPane;
+import nicon.notify.core.Notification;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -29,7 +31,8 @@ public class cl_json_entidad {
 
         try {
             //Generar la URL
-            String url = "http://lunasystemsperu.com/consultas_json/composer/consulta_sunat_JMP.php?ruc=" + ruc;
+            //String url = "http://lunasystemsperu.com/consultas_json/composer/consulta_sunat_JMP.php?ruc=" + ruc;
+            String url = "http://api.sunat.binvoice.net/consulta.php?nruc=" + ruc;
             //Creamos un nuevo objeto URL con la url donde pedir el JSON
             URL obj = new URL(url);
             //Creamos un objeto de conexión
@@ -122,10 +125,21 @@ public class cl_json_entidad {
         JSONObject jsonObject = (JSONObject) Jparser.parse(json);
         boolean estatus = (Boolean) jsonObject.get("success");
         //https://examples.javacodegeeks.com/core-java/json/java-json-parser-example/
-        JSONObject result = (JSONObject) jsonObject.get("result");
-
-        datos[0] = result.get("RazonSocial").toString();
-        datos[1] = result.get("Direccion").toString();
+       if (estatus) {
+            JSONObject result = (JSONObject) jsonObject.get("result");
+            //System.out.println("razon social: " + result.get("RazonSocial"));
+            datos[0] = result.get("razon_social").toString();
+            datos[1] = result.get("direccion").toString();
+            datos[2] = "HABIDO";
+            datos[3] = result.get("estado").toString();
+        } else {
+            Notification.show("Busqueda Externa", (String) jsonObject.get("msg"));
+            datos[0] = "";
+            datos[1] = "";
+            datos[2] = "";
+            datos[3] = "";
+            JOptionPane.showMessageDialog(null, "Error al buscar los datos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
         return datos;
     }
 
