@@ -31,8 +31,8 @@ public class cl_json_entidad {
 
         try {
             //Generar la URL
-            //String url = "http://lunasystemsperu.com/consultas_json/composer/consulta_sunat_JMP.php?ruc=" + ruc;
-            String url = "http://api.sunat.binvoice.net/consulta.php?nruc=" + ruc;
+            String url = "http://lunasystemsperu.com/consultas_json/composer/consulta_sunat_JMP.php?ruc=" + ruc;
+            //String url = "http://api.sunat.binvoice.net/consulta.php?nruc=" + ruc;
             //Creamos un nuevo objeto URL con la url donde pedir el JSON
             URL obj = new URL(url);
             //Creamos un objeto de conexión
@@ -75,7 +75,7 @@ public class cl_json_entidad {
 
         try {
             //Generar la URL
-            String url = "http://lunasystemsperu.com/consultas_json/composer/consultas_dni_JMP.php?dni=" + dni;
+            String url = "http://c2200996.ferozo.com/apis/peru-consult/public/consultaDNI.php?dni=" + dni;
             //Creamos un nuevo objeto URL con la url donde pedir el JSON
             URL obj = new URL(url);
             //Creamos un objeto de conexión
@@ -165,20 +165,20 @@ public class cl_json_entidad {
         System.out.println("INFORMACIÓN OBTENIDA DE LA BASE DE DATOS:");
 
         JSONParser Jparser = new JSONParser();
-        JSONObject jsonObject = (JSONObject) Jparser.parse(json);
-        boolean estatus = (Boolean) jsonObject.get("success");
-        String source = (String) jsonObject.get("source");
+        JSONObject result = (JSONObject) Jparser.parse(json);       //jsonObject
+       // boolean estatus = (Boolean) jsonObject.get("success");
+       // String source = (String) jsonObject.get("source");
         //https://examples.javacodegeeks.com/core-java/json/java-json-parser-example/
-        JSONObject result = (JSONObject) jsonObject.get("result");
+       // JSONObject result = (JSONObject) jsonObject.get("result");
 
-        if (source.equals("essalud")) {
-        datos[0] = result.get("ApellidoPaterno").toString() + " " + result.get("ApellidoMaterno").toString() + " " + result.get("Nombres").toString();
+       // if (source.equals("essalud")) {
+        datos[0] = result.get("apellidoPaterno").toString() + " " + result.get("apellidoMaterno").toString() + " " + result.get("nombres").toString();
         datos[1] = "-";
-        }
+       /* }
         if (source.equals("padron_jne")) {
         datos[0] = result.get("apellidos").toString() + " " + result.get("Nombres").toString();
         datos[1] = "-";
-        }
+        }*/
         return datos;
     }
 }
