@@ -31,8 +31,8 @@ public class cl_json_entidad {
 
         try {
             //Generar la URL
-            String url = "http://lunasystemsperu.com/consultas_json/composer/consulta_sunat_JMP.php?ruc=" + ruc;
-            //String url = "http://api.sunat.binvoice.net/consulta.php?nruc=" + ruc;
+            //String url = "http://lunasystemsperu.com/consultas_json/composer/consulta_sunat_JMP.php?ruc=" + ruc;
+            String url = "http://c2200996.ferozo.com/apis/peru-consult/public/consultaRUC.php?ruc=" + ruc;
             //Creamos un nuevo objeto URL con la url donde pedir el JSON
             URL obj = new URL(url);
             //Creamos un objeto de conexión
@@ -49,19 +49,19 @@ public class cl_json_entidad {
             System.out.println("Response Code : " + responseCode);
 
             //if (responseCode != 200) {
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                response = new StringBuffer();
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            response = new StringBuffer();
 
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                //Mostramos la respuesta del servidor por consola
-                System.out.println("Respuesta del servidor: " + response);
-                //cerramos la conexión
-                in.close();
-           // }
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            //Mostramos la respuesta del servidor por consola
+            System.out.println("Respuesta del servidor: " + response);
+            //cerramos la conexión
+            in.close();
+            // }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -116,30 +116,16 @@ public class cl_json_entidad {
         return response.toString();
     }
 
-   
     public static String[] showJSONRUC(String json) throws ParseException {
-        String[] datos = new String[2];
+        String[] datos = new String[4];
         System.out.println("INFORMACIÓN OBTENIDA DE LA BASE DE DATOS:");
 
         JSONParser Jparser = new JSONParser();
-        JSONObject jsonObject = (JSONObject) Jparser.parse(json);
-        boolean estatus = (Boolean) jsonObject.get("success");
-        //https://examples.javacodegeeks.com/core-java/json/java-json-parser-example/
-       if (estatus) {
-            JSONObject result = (JSONObject) jsonObject.get("result");
-            //System.out.println("razon social: " + result.get("RazonSocial"));
-            datos[0] = result.get("razon_social").toString();
-            datos[1] = result.get("direccion").toString();
-            datos[2] = "HABIDO";
-            datos[3] = result.get("estado").toString();
-        } else {
-            Notification.show("Busqueda Externa", (String) jsonObject.get("msg"));
-            datos[0] = "";
-            datos[1] = "";
-            datos[2] = "";
-            datos[3] = "";
-            JOptionPane.showMessageDialog(null, "Error al buscar los datos", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
+        JSONObject result = (JSONObject) Jparser.parse(json); //jsonObject
+        datos[0] = result.get("razonSocial").toString();
+        datos[1] = result.get("direccion").toString();
+        datos[2] = result.get("condicion").toString();
+        datos[3] = result.get("estado").toString();
         return datos;
     }
 
@@ -166,15 +152,15 @@ public class cl_json_entidad {
 
         JSONParser Jparser = new JSONParser();
         JSONObject result = (JSONObject) Jparser.parse(json);       //jsonObject
-       // boolean estatus = (Boolean) jsonObject.get("success");
-       // String source = (String) jsonObject.get("source");
+        // boolean estatus = (Boolean) jsonObject.get("success");
+        // String source = (String) jsonObject.get("source");
         //https://examples.javacodegeeks.com/core-java/json/java-json-parser-example/
-       // JSONObject result = (JSONObject) jsonObject.get("result");
+        // JSONObject result = (JSONObject) jsonObject.get("result");
 
-       // if (source.equals("essalud")) {
+        // if (source.equals("essalud")) {
         datos[0] = result.get("apellidoPaterno").toString() + " " + result.get("apellidoMaterno").toString() + " " + result.get("nombres").toString();
         datos[1] = "-";
-       /* }
+        /* }
         if (source.equals("padron_jne")) {
         datos[0] = result.get("apellidos").toString() + " " + result.get("Nombres").toString();
         datos[1] = "-";
