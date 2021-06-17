@@ -32,7 +32,7 @@ public class cl_json_entidad {
         try {
             //Generar la URL
             //String url = "http://lunasystemsperu.com/consultas_json/composer/consulta_sunat_JMP.php?ruc=" + ruc;
-            String url = "http://c2200996.ferozo.com/apis/peru-consult/public/consultaRUC.php?ruc=" + ruc;
+            String url = "http://lunasystemsperu.com/apis/apiruc.php?ruc=" + ruc;
             //Creamos un nuevo objeto URL con la url donde pedir el JSON
             URL obj = new URL(url);
             //Creamos un objeto de conexión
@@ -75,7 +75,7 @@ public class cl_json_entidad {
 
         try {
             //Generar la URL
-            String url = "http://c2200996.ferozo.com/apis/peru-consult/public/consultaDNI.php?dni=" + dni;
+            String url = "http://lunasystemsperu.com/apis/apidni.php?dni=" + dni;
             //Creamos un nuevo objeto URL con la url donde pedir el JSON
             URL obj = new URL(url);
             //Creamos un objeto de conexión
@@ -158,7 +158,8 @@ public class cl_json_entidad {
         // JSONObject result = (JSONObject) jsonObject.get("result");
 
         // if (source.equals("essalud")) {
-        datos[0] = result.get("apellidoPaterno").toString() + " " + result.get("apellidoMaterno").toString() + " " + result.get("nombres").toString();
+        //datos[0] = result.get("apellidoPaterno").toString() + " " + result.get("apellidoMaterno").toString() + " " + result.get("nombres").toString();
+        datos[0] = result.get("nombre").toString();
         datos[1] = "-";
         /* }
         if (source.equals("padron_jne")) {

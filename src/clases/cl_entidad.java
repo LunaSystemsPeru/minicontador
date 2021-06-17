@@ -76,6 +76,8 @@ public class cl_entidad {
             if (rs.next()) {
                 existe = true;
                 this.id_entidad = rs.getInt("id_entidad");
+            } else {
+                existe = false;
             }
             c_conectar.cerrar(rs);
             c_conectar.cerrar(st);

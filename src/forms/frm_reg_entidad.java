@@ -115,7 +115,6 @@ public class frm_reg_entidad extends javax.swing.JDialog {
 
         btn_add.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
         btn_add.setText("Grabar");
-        btn_add.setEnabled(false);
         btn_add.setFocusable(false);
         btn_add.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_add.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -181,14 +180,13 @@ public class frm_reg_entidad extends javax.swing.JDialog {
                         JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
                     }
                 }
-            } 
-            
+            }
+
             /*else {
                 JOptionPane.showMessageDialog(null, "Ingrese un numero correcto, 11 digitos");
                 txt_ruc.selectAll();
                 txt_ruc.requestFocus();
             }*/
-            
             if (txt_ruc.getText().length() == 8) {
                 String dni = txt_ruc.getText().trim();
                 c_entidad.setDocumento(dni);
@@ -207,12 +205,15 @@ public class frm_reg_entidad extends javax.swing.JDialog {
                         JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
                     }
                 }
-            } 
+            }
         }
     }//GEN-LAST:event_txt_rucKeyPressed
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
         c_entidad.setId_usuario(id_usuario);
+        c_entidad.setDocumento(txt_ruc.getText().trim());
+        c_entidad.setNombre(txt_razon.getText().trim());
+        c_entidad.setDireccion(txt_direccion.getText());
         if (!c_entidad.validar_documento()) {
             c_entidad.obtener_id();
             c_entidad.setNombre(c_entidad.getNombre().replaceAll("[\\.$|,|;|']", ""));
