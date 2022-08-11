@@ -622,13 +622,14 @@ public class frm_reg_venta extends javax.swing.JDialog {
 
     private void ver_comprobantes() {
         String cliente = txt_ruc.getText();
-        String query = "select v.id_ventas, v.periodo, v.fecha_emision, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.abreviatura as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
+        String query = "select v.id_ventas, v.periodo, v.fecha_emision, v.id_tido, ds.abreviatura as doc_venta, v.serie, v.numero, en.documento as doc_cliente, en.nombre as nombre_cliente, m.abreviatura as moneda, v.tc, v.tipo_venta, v.subtotal, v.igv, v.total, v.estado "
                 + "from ventas as v "
                 + "inner join entidad as en on en.id_entidad = v.id_entidad and en.id_usuario = v.id_usuario "
                 + "inner join documentos_sunat as ds on v.id_tido = ds.id_tido "
                 + "inner join moneda as m on m.id_moneda = v.id_moneda "
                 + "where en.documento = '" + cliente + "' and v.id_empresa = '" + id_empresa + "' "
                 + "order by v.fecha_emision asc, v.numero asc";
+        System.out.println(query);
         jd_documentos.setModal(true);
         jd_documentos.setSize(850, 380);
         jd_documentos.setLocationRelativeTo(null);

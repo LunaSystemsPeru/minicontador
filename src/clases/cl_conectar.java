@@ -16,13 +16,13 @@ import javax.swing.JOptionPane;
 public class cl_conectar {
 
     private static Connection conexion = null;
-    private static String bd = "minicontador"; // Nombre de BD.
-    private static String user = "lsp_minicontador"; // Usuario de BD.
-    private static String password = "yikA~x;k4aos"; // Password de BD.
+    private static String bd = "brunoasc_minicontador"; // Nombre de BD.
+    private static String user = "brunoasc_luis_bd"; // Usuario de BD.
+    private static String password = "C]6&TN4Bt@&I"; // Password de BD.
 
     // Driver para MySQL en este caso.
     private static String driver = "com.mysql.jdbc.Driver";
-    String server = "jdbc:mysql://lunasystemsperu.com/" + bd;
+    String server = "jdbc:mysql://artemisa.servidoresph.com:3306/" + bd;
 
     /**
      * Método neecesario para conectarse al Driver y poder usar MySQL.
