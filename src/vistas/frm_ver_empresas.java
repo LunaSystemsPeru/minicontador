@@ -94,7 +94,7 @@ public class frm_ver_empresas extends javax.swing.JInternalFrame {
         jToolBar1.add(jButton3);
         jToolBar1.add(jSeparator1);
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/comment.png"))); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/accept.png"))); // NOI18N
         jButton5.setText("Cambiar Empresa");
         jButton5.setEnabled(false);
         jButton5.setFocusable(false);
