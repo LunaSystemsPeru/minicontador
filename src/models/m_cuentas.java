@@ -65,7 +65,7 @@ public class m_cuentas {
         String query = "select id_cuenta_contable, nombre from cuentas_contables "
                 + "where id_cuenta_contable like '"+inicial+"%' and (LENGTH(id_cuenta_contable) > 2 and LENGTH(id_cuenta_contable) <= '"+tope+"') "
                 + "order by id_cuenta_contable asc";
-        System.out.println(query);
+        //System.out.println(query);
         listar_combobox(query, combobox);
     }
 

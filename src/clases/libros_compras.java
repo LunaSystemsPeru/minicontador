@@ -95,6 +95,16 @@ public class libros_compras {
                     sestado = "6";
                 }
 
+                double subtotal_compra = rs.getDouble("subtotal");
+                double igv_compra = rs.getDouble("igv");
+                double tc_compra = rs.getDouble("tc");
+                double total_compra = rs.getDouble("total");
+
+                double subtotal_soles = subtotal_compra * tc_compra;
+                double igv_soles = igv_compra * tc_compra;
+                double total_soles = total_compra * tc_compra;
+                double exonerado_soles = total_soles - igv_soles - subtotal_soles;
+
                 String linea = rs.getString("periodo") + "00"
                         + "|" + rs.getString("periodo") + c_varios.ceros_izquieda_numero(3, rs.getInt("id_compras"))
                         + "|M" + rs.getString("id_compras")
@@ -108,17 +118,17 @@ public class libros_compras {
                         + "|" + tipo_cliente
                         + "|" + rs.getString("doc_cliente")
                         + "|" + rs.getString("nombre_cliente")
-                        + "|" + c_varios.formato_numero(rs.getDouble("subtotal"))
-                        + "|" + c_varios.formato_numero(rs.getDouble("igv"))
+                        + "|" + c_varios.formato_numero(subtotal_soles)
+                        + "|" + c_varios.formato_numero(igv_soles)
                         + "|0.00"
                         + "|0.00"
                         + "|0.00"
                         + "|0.00"
+                        + "|"  + c_varios.formato_numero(exonerado_soles)
                         + "|0.00"
                         + "|0.00"
                         + "|0.00"
-                        + "|0.00"
-                        + "|" + c_varios.formato_numero(rs.getDouble("total"))
+                        + "|" + c_varios.formato_numero(total_soles)
                         + "|" + rs.getString("moneda")
                         + "|" + c_varios.formato_tc(rs.getDouble("tc"))
                         + "|" + fecha_ref

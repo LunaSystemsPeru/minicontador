@@ -263,6 +263,7 @@ public class cl_compra {
             mostrar.addColumn("Total Compra");
             mostrar.addColumn("Sub Total S/");
             mostrar.addColumn("IGV S/");
+            mostrar.addColumn("Exonerado S/");
             mostrar.addColumn("Total S/");
             mostrar.addColumn("");
             mostrar.addColumn("");
@@ -274,8 +275,9 @@ public class cl_compra {
                 double total_venta = rs.getDouble("total");
                 double tipo_cambio = rs.getDouble("tc");
                 double total_soles = total_venta * tipo_cambio;
-                double subtotal_soles = total_soles / 1.18;
-                double igv_soles = total_soles / 1.18 * 0.18;
+                double subtotal_soles = rs.getDouble("subtotal");
+                double igv_soles = rs.getDouble("igv");
+                double exonerado_soles = total_soles - subtotal_soles - igv_soles;
                 int itipo_venta = rs.getInt("tipo_compra");
                 if (itipo_venta == 2) {
                     subtotal_soles = total_soles;
@@ -285,7 +287,7 @@ public class cl_compra {
                 String valor_cliente = "";
                 String valor_estado = "";
 
-                Object[] fila = new Object[11];
+                Object[] fila = new Object[12];
                 fila[0] = rs.getString("periodo") + c_varios.ceros_izquieda_numero(3, rs.getInt("id_compras"));
                 fila[1] = c_varios.formato_fecha_vista(rs.getString("fecha_emision"));
                 fila[2] = rs.getString("doc_compra") + " / " + c_varios.ceros_izquieda_letras(4, rs.getString("serie")) + " - " + c_varios.ceros_izquieda_numero(7, rs.getInt("numero"));
@@ -294,9 +296,10 @@ public class cl_compra {
                 fila[5] = c_varios.formato_numero(total_venta);
                 fila[6] = c_varios.formato_numero(subtotal_soles);
                 fila[7] = c_varios.formato_numero(igv_soles);
-                fila[8] = c_varios.formato_numero(total_soles);
-                fila[9] = rs.getInt("periodo");
-                fila[10] = rs.getInt("id_compras");
+                fila[8] = c_varios.formato_numero(exonerado_soles);
+                fila[9] = c_varios.formato_numero(total_soles);
+                fila[10] = rs.getInt("periodo");
+                fila[11] = rs.getInt("id_compras");
 
                 mostrar.addRow(fila);
             }
@@ -315,8 +318,9 @@ public class cl_compra {
             tabla.getColumnModel().getColumn(6).setPreferredWidth(80);
             tabla.getColumnModel().getColumn(7).setPreferredWidth(80);
             tabla.getColumnModel().getColumn(8).setPreferredWidth(80);
-            tabla.getColumnModel().getColumn(9).setPreferredWidth(0);
+            tabla.getColumnModel().getColumn(9).setPreferredWidth(80);
             tabla.getColumnModel().getColumn(10).setPreferredWidth(0);
+            tabla.getColumnModel().getColumn(11).setPreferredWidth(0);
             c_varios.centrar_celda(tabla, 0);
             c_varios.centrar_celda(tabla, 1);
             c_varios.centrar_celda(tabla, 2);

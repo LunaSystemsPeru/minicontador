@@ -301,8 +301,8 @@ public class cl_venta {
             mostrar.addColumn("Total Venta");
             mostrar.addColumn("Sub Total S/");
             mostrar.addColumn("IGV S/");
+            mostrar.addColumn("Exonerado S/");
             mostrar.addColumn("Total S/");
-            mostrar.addColumn("Estado");
             mostrar.addColumn("Periodo");
             mostrar.addColumn("Id Venta");
             //Creando las filas para el JTable
@@ -311,18 +311,18 @@ public class cl_venta {
 
                 double total_venta = rs.getDouble("total");
                 if (iidtido == 4 || iidtido == 5) {
-                 //   total_venta = total_venta * -1;
+                    //   total_venta = total_venta * -1;
                 }
+
                 double tipo_cambio = rs.getDouble("tc");
-                double total_soles = total_venta * tipo_cambio;
-                double subtotal_soles = total_soles / 1.18;
-                double igv_soles = total_soles / 1.18 * 0.18;
+
+                double subtotal_soles = rs.getDouble("subtotal") * tipo_cambio;
+                double igv_soles = rs.getDouble("igv") * tipo_cambio;
+                double total_soles = rs.getDouble("total") * tipo_cambio;
+                double exonerado_soles = total_soles - igv_soles - subtotal_soles;
+
                 int itipo_venta = rs.getInt("tipo_venta");
-                if (itipo_venta == 2) {
-                    subtotal_soles = total_soles;
-                    igv_soles = 0;
-                }
-                total = total + total_venta;
+                total = total + total_soles;
 
                 int iestado = rs.getInt("estado");
                 String valor_cliente = "";
@@ -345,8 +345,8 @@ public class cl_venta {
                 fila[5] = c_varios.formato_totales(total_venta);
                 fila[6] = c_varios.formato_numero(subtotal_soles);
                 fila[7] = c_varios.formato_numero(igv_soles);
-                fila[8] = c_varios.formato_numero(total_soles);
-                fila[9] = valor_estado;
+                fila[8] = c_varios.formato_numero(exonerado_soles);
+                fila[9] = c_varios.formato_numero(total_soles);
                 fila[10] = rs.getString("periodo");
                 fila[11] = rs.getInt("id_ventas");
                 mostrar.addRow(fila);
