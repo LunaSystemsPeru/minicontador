@@ -147,9 +147,10 @@ public class frm_reg_diario extends javax.swing.JDialog {
         txt_tot_diferencia = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         cbx_tipo = new javax.swing.JComboBox<>();
-        jToolBar1 = new javax.swing.JToolBar();
-        jButton3 = new javax.swing.JButton();
-        btn_salir = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        txt_fecha1 = new javax.swing.JFormattedTextField();
+        jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         t_cuentas_venta = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
@@ -157,8 +158,6 @@ public class frm_reg_diario extends javax.swing.JDialog {
         txt_cod_cuenta = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         txt_nom_cuenta = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
-        cbx_costo = new javax.swing.JComboBox<>();
         jLabel16 = new javax.swing.JLabel();
         txt_debe = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
@@ -174,6 +173,10 @@ public class frm_reg_diario extends javax.swing.JDialog {
         txt_doc_emisor = new javax.swing.JTextField();
         txt_fecha = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
+        jToolBar2 = new javax.swing.JToolBar();
+        jButton2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Reg. Movimiento Diario");
@@ -194,6 +197,7 @@ public class frm_reg_diario extends javax.swing.JDialog {
 
         txt_periodo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_periodo.setText("201903");
+        txt_periodo.setEnabled(false);
         txt_periodo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txt_periodoKeyPressed(evt);
@@ -224,6 +228,7 @@ public class frm_reg_diario extends javax.swing.JDialog {
 
         jLabel7.setText("Diferencia:");
 
+        txt_tot_diferencia.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txt_tot_diferencia.setText("0.00");
         txt_tot_diferencia.setEnabled(false);
 
@@ -237,6 +242,27 @@ public class frm_reg_diario extends javax.swing.JDialog {
             }
         });
 
+        jLabel11.setText("Tipo Cambio");
+
+        jLabel12.setText("Fecha:");
+
+        try {
+            txt_fecha1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txt_fecha1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_fecha1.setText("02/03/2019");
+        txt_fecha1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_fecha1KeyPressed(evt);
+            }
+        });
+
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField1.setText("1.000");
+        jTextField1.setEnabled(false);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -245,6 +271,10 @@ public class frm_reg_diario extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_fecha1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_periodo, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -255,31 +285,37 @@ public class frm_reg_diario extends javax.swing.JDialog {
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cbx_tipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cbx_moneda, 0, 225, Short.MAX_VALUE)
-                            .addComponent(cbx_libro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
+                            .addComponent(cbx_moneda, 0, 290, Short.MAX_VALUE)
+                            .addComponent(cbx_libro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbx_tipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel18)
-                        .addComponent(jLabel19)))
+                        .addComponent(jLabel19))
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txt_tot_haber, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
                     .addComponent(txt_tot_debe)
-                    .addComponent(txt_tot_diferencia))
+                    .addComponent(txt_tot_diferencia)
+                    .addComponent(jTextField1))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_tot_debe, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_periodo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_tot_debe, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_fecha1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_periodo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -290,7 +326,10 @@ public class frm_reg_diario extends javax.swing.JDialog {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_tot_diferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(48, 48, 48))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
@@ -302,42 +341,16 @@ public class frm_reg_diario extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbx_moneda, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
+                            .addComponent(cbx_moneda, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
-
-        jToolBar1.setFloatable(false);
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/accept.png"))); // NOI18N
-        jButton3.setText("Guardar");
-        jButton3.setFocusable(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jButton3);
-
-        btn_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/cross.png"))); // NOI18N
-        btn_salir.setText("Salir");
-        btn_salir.setFocusable(false);
-        btn_salir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btn_salir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btn_salir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_salirActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btn_salir);
 
         t_cuentas_venta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "601101", null, "20532059250", "VR | E001 - 0002154", "06/03/2019", null, "PEN", "2000.00", null, "COMPRA XXX"}
+                {"1", "601101", "20532059250", "VR | E001 - 0002154", "06/03/2019", "PEN", "2000.00", null, "COMPRA XXX"}
             },
             new String [] {
-                "Item", "Cuenta C.", "Costo", "Emisor", "Documento", "Fec. Doc.", "Fec. Vcto.", "Mon.", "Debe ", "Haber", "Glosa"
+                "Item", "Cuenta C.", "Emisor", "Documento", "Fec. Doc.", "Mon.", "Debe ", "Haber", "Glosa"
             }
         ));
         t_cuentas_venta.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
@@ -374,16 +387,6 @@ public class frm_reg_diario extends javax.swing.JDialog {
         jButton1.setEnabled(false);
 
         txt_nom_cuenta.setEnabled(false);
-
-        jLabel14.setText("Centro de Costo:");
-
-        cbx_costo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECCIONAR CCOSTO" }));
-        cbx_costo.setEnabled(false);
-        cbx_costo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                cbx_costoKeyPressed(evt);
-            }
-        });
 
         jLabel16.setText("Debe:");
 
@@ -465,7 +468,7 @@ public class frm_reg_diario extends javax.swing.JDialog {
             }
         });
 
-        jLabel5.setText("Fecha:");
+        jLabel5.setText("Fecha Comprobante:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -474,7 +477,6 @@ public class frm_reg_diario extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -490,12 +492,16 @@ public class frm_reg_diario extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txt_numero, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txt_doc_emisor, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 241, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(57, 57, 57))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txt_haber)
                             .addComponent(txt_debe)
@@ -509,11 +515,7 @@ public class frm_reg_diario extends javax.swing.JDialog {
                         .addComponent(txt_nom_cuenta)
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_glosa)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(cbx_costo, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(txt_glosa)
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
@@ -554,14 +556,43 @@ public class frm_reg_diario extends javax.swing.JDialog {
                             .addComponent(txt_haber, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbx_costo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_glosa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap())
         );
+
+        jToolBar2.setFloatable(false);
+        jToolBar2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        jButton2.setText("Añadir");
+        jButton2.setFocusable(false);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setMaximumSize(new java.awt.Dimension(50, 41));
+        jButton2.setMinimumSize(new java.awt.Dimension(50, 41));
+        jButton2.setPreferredSize(new java.awt.Dimension(50, 41));
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar2.add(jButton2);
+
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/application_edit.png"))); // NOI18N
+        jButton4.setText("Modificar");
+        jButton4.setFocusable(false);
+        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton4.setMaximumSize(new java.awt.Dimension(50, 41));
+        jButton4.setMinimumSize(new java.awt.Dimension(50, 41));
+        jButton4.setPreferredSize(new java.awt.Dimension(50, 41));
+        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar2.add(jButton4);
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/cross.png"))); // NOI18N
+        jButton5.setText("Eliminar");
+        jButton5.setFocusable(false);
+        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton5.setMaximumSize(new java.awt.Dimension(50, 41));
+        jButton5.setMinimumSize(new java.awt.Dimension(50, 41));
+        jButton5.setPreferredSize(new java.awt.Dimension(50, 41));
+        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar2.add(jButton5);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -571,21 +602,25 @@ public class frm_reg_diario extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 664, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(8, 8, 8)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -671,19 +706,11 @@ public class frm_reg_diario extends javax.swing.JDialog {
     private void txt_numeroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_numeroKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (txt_numero.getText().length() > 0) {
-                cbx_costo.setEnabled(true);
-                cbx_costo.requestFocus();
+//                cbx_costo.setEnabled(true);
+//                cbx_costo.requestFocus();
             }
         }
     }//GEN-LAST:event_txt_numeroKeyPressed
-
-    private void cbx_costoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbx_costoKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txt_fecha.setEnabled(true);
-            txt_fecha.selectAll();
-            txt_fecha.requestFocus();
-        }
-    }//GEN-LAST:event_cbx_costoKeyPressed
 
     private void txt_fechaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_fechaKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -740,57 +767,6 @@ public class frm_reg_diario extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txt_haberKeyPressed
 
-    private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
-        this.dispose();
-        frm_ver_diario formulario = new frm_ver_diario();
-        c_varios.llamar_ventana_ancha(formulario);
-    }//GEN-LAST:event_btn_salirActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        c_libro.setPeriodo(txt_periodo.getText());
-        c_libro.setId_empresa(id_empresa);
-        c_libro.setId_usuario(id_usuario);
-        c_libro.obtener_subdiario();
-        int tipo_asiento = cbx_tipo.getSelectedIndex();
-        String masiento = "";
-        if (tipo_asiento == 0) {
-            masiento = "A";
-        }
-        if (tipo_asiento == 1) {
-            masiento = "M";
-        }
-        if (tipo_asiento == 2) {
-            masiento = "C";
-        }
-
-        o_combobox o_libros = (o_combobox) cbx_libro.getSelectedItem();
-        c_libro.setTipo_asiento(masiento + o_libros.getId());
-        o_combobox o_moneda = (o_combobox) cbx_moneda.getSelectedItem();
-        c_libro.setId_moneda(o_moneda.getId());
-
-        int contar_filas = t_cuentas_venta.getRowCount();
-        if (contar_filas > 0) {
-            for (int i = 0; i < contar_filas; i++) {
-                c_libro.setId_ccosto(t_cuentas_venta.getValueAt(i, 3).toString());
-                c_libro.setDoc_entidad(t_cuentas_venta.getValueAt(i, 4).toString());
-                c_libro.setId_tido(Integer.parseInt(t_cuentas_venta.getValueAt(i, 12).toString()));
-                c_libro.setSerie(t_cuentas_venta.getValueAt(i, 13).toString());
-                c_libro.setNumero(Integer.parseInt(t_cuentas_venta.getValueAt(i, 14).toString()));
-                c_libro.setFecha_cble(c_varios.formato_fecha_mysql(t_cuentas_venta.getValueAt(i, 6).toString()));
-                c_libro.setFecha_vcto(c_libro.getFecha_cble());
-                c_libro.setGlosa(t_cuentas_venta.getValueAt(i, 11).toString());
-                c_libro.setCod_libro("");
-                c_libro.setEstado(1);
-                c_libro.setId_cuenta(t_cuentas_venta.getValueAt(i, 2).toString());
-                c_libro.setDebe(Double.parseDouble(t_cuentas_venta.getValueAt(i, 9).toString()));
-                c_libro.setHaber(Double.parseDouble(t_cuentas_venta.getValueAt(i, 10).toString()));
-                c_libro.obtener_id();
-                c_libro.insertar();
-            }
-        }
-        btn_salir.doClick();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void txt_glosaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_glosaKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             Object fila[] = new Object[15];
@@ -811,7 +787,7 @@ public class frm_reg_diario extends javax.swing.JDialog {
             fila[0] = masiento + o_libros.getId();
             fila[1] = t_cuentas_venta.getRowCount() + 1;
             fila[2] = txt_cod_cuenta.getText();
-            fila[3] = cbx_costo.getSelectedIndex();
+            fila[3] = "";  //cbx_costo.getSelectedIndex();
             fila[4] = txt_doc_emisor.getText();
             o_combobox o_tido = (o_combobox) cbx_tipo_doc.getSelectedItem();
             c_tido.setId_tido(o_tido.getId());
@@ -850,6 +826,10 @@ public class frm_reg_diario extends javax.swing.JDialog {
         c_varios.solo_numeros(evt);
         c_varios.limitar_caracteres(evt, txt_cod_cuenta, 5);
     }//GEN-LAST:event_txt_cod_cuentaKeyTyped
+
+    private void txt_fecha1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_fecha1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_fecha1KeyPressed
 
     /**
      * @param args the command line arguments
@@ -894,18 +874,19 @@ public class frm_reg_diario extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_salir;
-    private javax.swing.JComboBox<String> cbx_costo;
     private javax.swing.JComboBox<String> cbx_libro;
     private javax.swing.JComboBox<String> cbx_moneda;
     private javax.swing.JComboBox<String> cbx_tipo;
     private javax.swing.JComboBox<String> cbx_tipo_doc;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
@@ -921,12 +902,14 @@ public class frm_reg_diario extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JToolBar jToolBar2;
     private javax.swing.JTable t_cuentas_venta;
     private javax.swing.JTextField txt_cod_cuenta;
     private javax.swing.JTextField txt_debe;
     private javax.swing.JTextField txt_doc_emisor;
     private javax.swing.JFormattedTextField txt_fecha;
+    private javax.swing.JFormattedTextField txt_fecha1;
     private javax.swing.JTextField txt_glosa;
     private javax.swing.JTextField txt_haber;
     private javax.swing.JTextField txt_nom_cuenta;
