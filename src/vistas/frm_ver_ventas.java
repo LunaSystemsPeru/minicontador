@@ -114,14 +114,10 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        btn_modificar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
-        jButton8 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
         jButton5 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JToolBar.Separator();
         jButton4 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -232,6 +228,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/error.png"))); // NOI18N
         jButton6.setText("Doc. Anulado");
+        jButton6.setEnabled(false);
         jButton6.setFocusable(false);
         jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -241,19 +238,6 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
             }
         });
         jToolBar1.add(jButton6);
-
-        btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/application_edit.png"))); // NOI18N
-        btn_modificar.setText("Modificar");
-        btn_modificar.setEnabled(false);
-        btn_modificar.setFocusable(false);
-        btn_modificar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btn_modificar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_modificarActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btn_modificar);
 
         btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
         btn_eliminar.setText("Eliminar");
@@ -268,26 +252,6 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         });
         jToolBar1.add(btn_eliminar);
         jToolBar1.add(jSeparator2);
-
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/currency.png"))); // NOI18N
-        jButton8.setText("Conf. CTA VTA");
-        jButton8.setFocusable(false);
-        jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton8);
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/clipboard_text.png"))); // NOI18N
-        jButton3.setText("ver Asientos");
-        jButton3.setEnabled(false);
-        jButton3.setFocusable(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jButton3);
         jToolBar1.add(jSeparator1);
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/computer.png"))); // NOI18N
@@ -301,18 +265,6 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
             }
         });
         jToolBar1.add(jButton5);
-
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/clipboard_text.png"))); // NOI18N
-        jButton2.setText("Generar Excel");
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jButton2);
         jToolBar1.add(jSeparator3);
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/cross.png"))); // NOI18N
@@ -584,41 +536,6 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        int indexRow = t_ventas.getSelectedRow();
-
-        String nombre_reporte = "registro_vetas";
-
-        //ver reporte en pdf;        
-        File miDir = new File(".");
-        try {
-            Map<String, Object> parametros = new HashMap<>();
-            String path = miDir.getCanonicalPath();
-            String direccion = path + File.separator + "reports" + File.separator + "subreports" + File.separator;
-
-            System.out.println(direccion);
-            parametros.put("SUBREPORT_DIR", direccion);
-            parametros.put("JRParameter.REPORT_LOCALE", Locale.ENGLISH);
-            parametros.put("REPORT_LOCALE", Locale.ENGLISH);
-            parametros.put("IdVenta", t_ventas.getValueAt(indexRow, 11));
-            parametros.put("Periodo", t_ventas.getValueAt(indexRow, 10));
-            parametros.put("Ruc", frm_menu.c_entidad.getDocumento());
-            parametros.put("Razon_Social", frm_menu.c_entidad.getNombre());
-            c_varios.ver_reporte_excel(nombre_reporte, parametros, nombre_reporte);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
-        }
-
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
-        //abrir jdialog con id de venta seleccionada
-    }//GEN-LAST:event_btn_modificarActionPerformed
-
     private void jComboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseClicked
 
     }//GEN-LAST:event_jComboBox1MouseClicked
@@ -662,18 +579,14 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_eliminar;
-    private javax.swing.JButton btn_modificar;
     private javax.swing.JButton btn_salir;
     private javax.swing.JComboBox<String> cbx_buscar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox3;

@@ -335,11 +335,11 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -395,8 +395,8 @@ public class frm_ver_compras extends javax.swing.JInternalFrame {
     private void t_comprasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_t_comprasMouseClicked
         if (evt.getClickCount() == 2) {
             fila_seleccionada = t_compras.getSelectedRow();
-            c_compra.setPeriodo(Integer.parseInt(t_compras.getValueAt(fila_seleccionada, 9).toString()));
-            c_compra.setId_compra(Integer.parseInt(t_compras.getValueAt(fila_seleccionada, 10).toString()));
+            c_compra.setPeriodo(Integer.parseInt(t_compras.getValueAt(fila_seleccionada, 10).toString()));
+            c_compra.setId_compra(Integer.parseInt(t_compras.getValueAt(fila_seleccionada, 11).toString()));
             c_compra.setId_empresa(id_empresa);
             activar_botones();
         }

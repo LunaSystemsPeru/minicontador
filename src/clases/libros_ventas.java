@@ -95,6 +95,12 @@ public class libros_ventas {
                 if (rs.getInt("estado") == 2) {
                     sestado = "2";
                 }
+                
+                double tc = rs.getDouble("tc");
+                double subtotal_soles = rs.getDouble("subtotal") * tc;
+                double igv_soles = rs.getDouble("igv") * tc;
+                double total_soles = rs.getDouble("total") * tc;
+                double exonerado_soles = total_soles - igv_soles - subtotal_soles;
 
                 String linea = rs.getString("periodo") + "00"
                         + "|" + rs.getString("periodo") + c_varios.ceros_izquieda_numero(3, rs.getInt("id_ventas"))
@@ -109,18 +115,18 @@ public class libros_ventas {
                         + "|" + rs.getString("doc_cliente")
                         + "|" + rs.getString("nombre_cliente")
                         + "|0"
-                        + "|" + c_varios.formato_numero(rs.getDouble("subtotal"))
+                        + "|" + c_varios.formato_numero(subtotal_soles)
                         + "|0"
-                        + "|" + c_varios.formato_numero(rs.getDouble("igv"))
+                        + "|" + c_varios.formato_numero(igv_soles)
+                        + "|0.00"
+                        + "|" + c_varios.formato_numero(exonerado_soles)
                         + "|0.00"
                         + "|0.00"
                         + "|0.00"
                         + "|0.00"
                         + "|0.00"
                         + "|0.00"
-                        + "|0.00"
-                        + "|0.00"
-                        + "|" + c_varios.formato_numero(rs.getDouble("total"))
+                        + "|" + c_varios.formato_numero(total_soles)
                         + "|" + rs.getString("moneda")
                         + "|" + c_varios.formato_tc(rs.getDouble("tc"))
                         + "|" + fecha_ref
