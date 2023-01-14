@@ -94,6 +94,8 @@ public class libros_compras {
                     System.out.println("\nperiodo libro" + speriodo);
                     sestado = "6";
                 }
+                
+                // #AA84D3@9C60FE*
 
                 double subtotal_compra = rs.getDouble("subtotal");
                 double igv_compra = rs.getDouble("igv");

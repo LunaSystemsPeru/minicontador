@@ -999,8 +999,8 @@ public class frm_reg_compra extends javax.swing.JDialog {
     private void btn_seleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_seleccionarActionPerformed
         int fila_seleccionada = t_documentos.getSelectedRow();
         if (fila_seleccionada > -1) {
-            c_referencia.setPeriodo(Integer.parseInt(t_documentos.getValueAt(fila_seleccionada, 9).toString()));
-            c_referencia.setId_compra(Integer.parseInt(t_documentos.getValueAt(fila_seleccionada, 10).toString()));
+            c_referencia.setPeriodo(Integer.parseInt(t_documentos.getValueAt(fila_seleccionada, 10).toString()));
+            c_referencia.setId_compra(Integer.parseInt(t_documentos.getValueAt(fila_seleccionada, 11).toString()));
             c_referencia.setId_empresa(id_empresa);
             if (c_referencia.obtener_datos()) {
                 //enviar datos para registro de notas

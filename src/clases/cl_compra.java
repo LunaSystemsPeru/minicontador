@@ -271,18 +271,19 @@ public class cl_compra {
             int contar = 0;
             while (rs.next()) {
                 contar++;
-                total = total + rs.getDouble("total");
                 double total_venta = rs.getDouble("total");
                 double tipo_cambio = rs.getDouble("tc");
                 double total_soles = total_venta * tipo_cambio;
-                double subtotal_soles = rs.getDouble("subtotal");
-                double igv_soles = rs.getDouble("igv");
+                double subtotal_soles = rs.getDouble("subtotal") * tipo_cambio;
+                double igv_soles = rs.getDouble("igv") * tipo_cambio;
                 double exonerado_soles = total_soles - subtotal_soles - igv_soles;
                 int itipo_venta = rs.getInt("tipo_compra");
                 if (itipo_venta == 2) {
                     subtotal_soles = total_soles;
                     igv_soles = 0;
                 }
+                
+                total = total +total_soles;
 
                 String valor_cliente = "";
                 String valor_estado = "";
@@ -329,6 +330,7 @@ public class cl_compra {
             c_varios.derecha_celda(tabla, 6);
             c_varios.derecha_celda(tabla, 7);
             c_varios.derecha_celda(tabla, 8);
+            c_varios.derecha_celda(tabla, 9);
             //tabla.setDefaultRenderer(Object.class, new render_tables.render_ventas());
         } catch (SQLException e) {
             System.out.print(e);

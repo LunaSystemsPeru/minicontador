@@ -101,7 +101,7 @@ public class frm_menu extends javax.swing.JFrame {
         try {
             Timer timer = new Timer(35000, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    c_empresa.ver_meses(jTable1);
+                    c_empresa.ver_meses(jTable1, 2022);
                     System.out.println("sumando meses");
                 }
             });
@@ -491,8 +491,6 @@ public class frm_menu extends javax.swing.JFrame {
         setTitle("Sistema minicontable -- Luna Systems Peru");
         setIconImage(Toolkit.getDefaultToolkit().getImage("icono.jpg"));
 
-        jToolBar1.setFloatable(false);
-
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/86-512.png"))); // NOI18N
         jButton3.setText("Mis Datos");
         jButton3.setFocusable(false);
@@ -643,8 +641,6 @@ public class frm_menu extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 261, Short.MAX_VALUE))
         );
-
-        jToolBar2.setFloatable(false);
 
         jLabel1.setText("RUC: ");
         jToolBar2.add(jLabel1);
@@ -932,7 +928,7 @@ public class frm_menu extends javax.swing.JFrame {
         c_empresa.setId_usuario(c_usuario.getId_usuario());
         c_empresa.obtener_datos();
 
-        c_empresa.ver_meses(jTable1);
+        c_empresa.ver_meses(jTable1, 2022);
         resumar_meses();
 
         c_entidad.setId_usuario(c_empresa.getId_usuario());

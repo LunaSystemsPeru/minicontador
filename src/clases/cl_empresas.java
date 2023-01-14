@@ -205,7 +205,7 @@ public class cl_empresas {
         }
     }
 
-    public void ver_meses(JTable tabla) {
+    public void ver_meses(JTable tabla, int anio) {
         try {
             DefaultTableModel mostrar = new DefaultTableModel() {
                 @Override
@@ -215,8 +215,8 @@ public class cl_empresas {
             };
             Statement st = c_conectar.conexion();
             String query = "select m.nombre, "
-                    + "(select ifnull(sum(v.igv),0) from ventas as v where v.id_empresa = '" + this.id_empresa + "' and v.periodo like concat(year(current_date), lpad(m.id, 2, '0')) ) as igv_venta, "
-                    + "(select ifnull(sum(c.igv),0) from compras as c where c.id_empresa = '" + this.id_empresa + "' and c.periodo like concat(year(current_date), lpad(m.id, 2, '0')) ) as igv_compra "
+                    + "(select ifnull(sum(v.igv*v.tc),0) from ventas as v where v.id_empresa = '" + this.id_empresa + "' and v.periodo like concat(" + anio + ", lpad(m.id, 2, '0')) ) as igv_venta, "
+                    + "(select ifnull(sum(c.igv*c.tc),0) from compras as c where c.id_empresa = '" + this.id_empresa + "' and c.periodo like concat(" + anio + ", lpad(m.id, 2, '0')) ) as igv_compra "
                     + "from mes as m "
                     + "order by m.id asc";
             ResultSet rs = c_conectar.consulta(st, query);
@@ -228,10 +228,17 @@ public class cl_empresas {
             mostrar.addColumn("Acumulado");
 
             double acumulado = 0;
+            double diferencia_igv = 0;
             while (rs.next()) {
                 double igv_venta = rs.getDouble("igv_venta");
                 double igv_compra = rs.getDouble("igv_compra");
-                acumulado += (igv_venta - igv_compra);
+
+                if (igv_compra > igv_venta) {
+                    diferencia_igv = igv_venta - igv_compra;
+                } else {
+                    diferencia_igv = igv_venta - igv_compra;
+                }
+                acumulado += diferencia_igv;
 
                 Object fila[] = new Object[5];
 
